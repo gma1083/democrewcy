@@ -5,18 +5,7 @@ const MessageBoard = require('./MessageBoard');
 const Channel = new ClassModel({
     className : 'Channel',
     superClasses : [MessageBoard],
-    attributes : [
-        {
-            name : 'name',
-            type : String,
-            required : true,
-        },
-        {
-            name : 'description',
-            type : String,
-            required : false,
-        }
-    ],
+    
     relationships : [
         {
             name : 'channelable',
