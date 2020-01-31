@@ -25,19 +25,22 @@ const PositionDefinition = new ClassModel({
             name : 'position',
             toClass : 'Position',
             singular : false,
-            required : true
+            required : true,
+            mirrorRelationship : true
         },
         {
             name : 'createPosition',
             toClass : 'CreatePosition',
             singular : true,
-            required : true
+            required : true,
+            mirrorRelationship : true
         },
         {
             name : 'group',
             toClass : 'Group',
             singular : true,
-            required : true
+            required : true,
+            mirrorRelationship : true
         }
     ]
   

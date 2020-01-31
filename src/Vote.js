@@ -9,7 +9,8 @@ const Vote = new ClassModel({
             name : 'individualVote',
             toClass : 'IndividualVote',
             singular : false,
-            required : true
+            required : true,
+            mirrorRelationship : true
         },
         {
             name : 'allowedVoteoptions',
@@ -21,7 +22,8 @@ const Vote = new ClassModel({
             name : 'motion',
             toClass : 'Motion',
             singular : true,
-            required : true
+            required : true,
+            mirrorRelationship : true
         }
     ]
   

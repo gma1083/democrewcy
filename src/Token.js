@@ -25,7 +25,8 @@ const Token = new ClassModel({
             name : 'user',
             toClass : 'User',
             singular : true,
-            required : true
+            required : true,
+            mirrorRelationship : true
         }
     ]
   
