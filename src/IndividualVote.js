@@ -28,4 +28,4 @@ const IndividualVote = new ClassModel({
   
 });
 
-module.exports = PositionDescription;
+module.exports = IndividualVote;

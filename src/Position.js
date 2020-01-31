@@ -45,4 +45,4 @@ const Position = new ClassModel({
   
 });
 
-module.exports = PositionDescription;
+module.exports = Position;
