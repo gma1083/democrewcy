@@ -15,6 +15,16 @@ const Event = new ClassModel({
             name : 'description',
             type : String,
             required : false,
+        },
+        {
+            name : 'startTime',
+            type : Date,
+            required : true,
+        },
+        {
+            name : 'endTime',
+            type : Date,
+            required : true,
         }
     ],
     relationships : [
