@@ -2,9 +2,11 @@
   "name": "crewmocracy",
   "version": "0.0.1",
   "description": "By The Crew For The Crew",
-  "main": "index.js",
+  "main": "app.js",
   "scripts": {
-    "test": "test"
+    "test": "./node_modules/mocha/bin/mocha --recursive --timeout 5000",
+    "start": "nodemon app.js",
+    "dev": "nodemon app.js"
   },
   "repository": {
     "type": "git",
@@ -18,6 +20,9 @@
   "homepage": "https://github.com/gma1083/crewmocracy#readme",
   "dependencies": {
     "koa": "^2.11.0",
+    "koa-body": "^4.1.1",
+    "koa-logger": "^3.2.1",
+    "koa-router": "^8.0.6",
     "noomman": "^0.5.7"
   },
   "devDependencies": {
