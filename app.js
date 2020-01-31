@@ -6,6 +6,10 @@ const cors = require('koa-cors');
 const Noomman = require('noomman');
 //const index = require('./src/index.js');
 
+Noomman.connect('mongodb+srv://GregArnheiter:<password>@cluster0-rqft7.gcp.mongodb.net/test?retryWrites=true&w=majority', "democrewcy_test")
+    .then(() => console.log('Connected....'))
+    .catch((error) => console.log('Connection Failed: ' + error.message));
+
 const app = new Koa();
 app.use(bodyParser);
 app.use(logger);
