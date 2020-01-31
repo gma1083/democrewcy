@@ -20,7 +20,7 @@ const User = new ClassModel({
             required : true,
         }
     ],
-    relationships : [
+    relationships : [          
         {
             name : 'account',
             toClass : 'Account',
