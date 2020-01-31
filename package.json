@@ -21,6 +21,7 @@
   "dependencies": {
     "koa": "^2.11.0",
     "koa-body": "^4.1.1",
+    "koa-cors": "0.0.16",
     "koa-logger": "^3.2.1",
     "koa-router": "^8.0.6",
     "noomman": "^0.5.7"
