@@ -1,29 +1,29 @@
 const noomman = require('noomman');
 const ClassModel = noomman.ClassModel;
 
-const Token = new ClassModel({
-    className : 'Token',
+const User = new ClassModel({
+    className : 'User',
     attributes : [
         {
-            name : 'createdAt',
-            type : Date,
-            required : true,
-        },
-        {
-            name : 'expires',
-            type : Date,
-            required : true,
-        },
-        {
-            name : 'token',
+            name : 'firstName',
             type : String,
+            required : true,
+        },
+        {
+            name : 'lastName',
+            type : String,
+            required : true,
+        },
+        {
+            name : 'birthDate',
+            type : Date,
             required : true,
         }
     ],
     relationships : [
         {
-            name : 'user',
-            toClass : 'User',
+            name : 'account',
+            toClass : 'Account',
             singular : true,
             required : true
         }
@@ -31,4 +31,4 @@ const Token = new ClassModel({
   
 });
 
-module.exports = Token;
+module.exports = User;
