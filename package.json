@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/gma1083/crewmocracy#readme",
   "dependencies": {
+    "koa": "^2.11.0",
     "noomman": "^0.5.7"
   }
 }
