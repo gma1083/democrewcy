@@ -15,5 +15,8 @@
   "bugs": {
     "url": "https://github.com/gma1083/crewmocracy/issues"
   },
-  "homepage": "https://github.com/gma1083/crewmocracy#readme"
+  "homepage": "https://github.com/gma1083/crewmocracy#readme",
+  "dependencies": {
+    "noomman": "^0.5.7"
+  }
 }
