@@ -49,14 +49,14 @@ const Motion = new ClassModel({
         {
             name : 'previousMotion',
             toClass : 'Motion',
-            singular : false,
+            singular : true,
             required : false,
             mirrorRelationship : true
         },
         {
             name : 'nextMotion',
             toClass : 'Motion',
-            singular : false,
+            singular : true,
             required : false,
             mirrorRelationship : true
         }

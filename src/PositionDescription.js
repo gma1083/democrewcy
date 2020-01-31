@@ -25,7 +25,7 @@ const PositionDefinition = new ClassModel({
             name : 'position',
             toClass : 'Position',
             singular : false,
-            required : true,
+            required : false,
             mirrorRelationship : true
         },
         {

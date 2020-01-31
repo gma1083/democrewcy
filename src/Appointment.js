@@ -10,7 +10,7 @@ const Appointment = new ClassModel({
         {
             name : 'createsPosition',
             toClass : 'Position',
-            singular : false,
+            singular : true,
             required : false,
             mirrorRelationship : true
         },

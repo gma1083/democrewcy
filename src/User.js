@@ -29,35 +29,35 @@ const User = new ClassModel({
             mirrorRelationship : true
         },
         {
-            name : 'event',
+            name : 'events',
             toClass : 'Event',
             singular : false,
             required : false,
             mirrorRelationship : true
         },
         {
-            name : 'appointment',
+            name : 'appointments',
             toClass : 'Appointment',
             singular : false,
             required : false,
             mirrorRelationship : true
         },
         {
-            name : 'position',
+            name : 'positions',
             toClass : 'Position',
             singular : false,
             required : false,
             mirrorRelationship : true
         },
         {
-            name : 'message',
+            name : 'messages',
             toClass : 'Message',
             singular : false,
             required : false,
             mirrorRelationship : true
         },
         {
-            name : 'messageBoard',
+            name : 'messageBoards',
             toClass : 'MessageBoard',
             singular : false,
             required : false,
