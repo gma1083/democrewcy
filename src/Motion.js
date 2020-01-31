@@ -26,7 +26,7 @@ const Motion = new ClassModel({
             mirrorRelationship : true
         },
         {
-            name : 'position',
+            name : 'proposedBy',
             toClass : 'Position',
             singular : true,
             required : true,

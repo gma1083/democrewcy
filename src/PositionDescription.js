@@ -41,6 +41,13 @@ const PositionDefinition = new ClassModel({
             singular : true,
             required : true,
             mirrorRelationship : true
+        },
+        {
+            name : 'appointment',
+            toClass : 'Appointment',
+            singular : false,
+            required : false,
+            mirrorRelationship : true
         }
     ]
   

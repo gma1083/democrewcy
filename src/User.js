@@ -38,7 +38,7 @@ const User = new ClassModel({
         {
             name : 'appointment',
             toClass : 'Appointment',
-            singular : true,
+            singular : false,
             required : false,
             mirrorRelationship : true
         },
