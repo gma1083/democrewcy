@@ -1,0 +1,19 @@
+{
+  "name": "crewmocracy",
+  "version": "0.0.1",
+  "description": "By The Crew For The Crew",
+  "main": "index.js",
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gma1083/crewmocracy.git"
+  },
+  "author": "Gregory Arnheiter",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/gma1083/crewmocracy/issues"
+  },
+  "homepage": "https://github.com/gma1083/crewmocracy#readme"
+}
