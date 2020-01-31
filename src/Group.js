@@ -42,7 +42,7 @@ const Group = new ClassModel({
         {
             name : 'subGroups',
             toClass : 'Group',
-            singular : false,
+            singular : true,
             required : false,
             mirrorRelationship : true
         },
