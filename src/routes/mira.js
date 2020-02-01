@@ -1,5 +1,5 @@
-const express = require('express');
-const router = express.Router();
+const Router = require('koa-router');
+const router = new Router();
 const noomman = require('noomman');
 const NoommanValidationError = noomman.NoommanErrors.NoommanValidationError;
 
@@ -11,13 +11,8 @@ const MiraController = require('../controllers/MiraController');
  * Response:
  *  JSON - An Array containing the names of all the ClassModels.
  */
-router.get('/', (request, response) => {
-    try {
-        response.json(MiraController.getClassModels());
-    }
-    catch (error) {
-        response.status(500).json({ error: error.message });
-    }
+router.get('/', (ctx, next) => {
+    ctx.body = JSON.stringify(MiraController.getClassModels());
 });
 
 /* 
@@ -28,16 +23,17 @@ router.get('/', (request, response) => {
  *    array of nested objects containing the details of each attribute and relationship for the
  *    requested ClassModel.
  */
-router.get('/:className', (request, response) => {
+router.get('/:className', (ctx, next) => {
     let schema;
     try {
-           schema = MiraController.schemaForClassModel(request.params.className);
-           response.json(schema);
+           schema = MiraController.schemaForClassModel(ctx.body.className);
+           ctx.body = JSON.stringify(schema);
     }
     catch (error) {
         console.log('schema error: ' + error.message);
         console.log(error);
-        response.status(500).json({ error: error.message });
+        ctx.status = 500;
+        ctx.body = JSON.stringify({ error: error.message });
     }
 });
 
@@ -56,13 +52,14 @@ router.get('/:className', (request, response) => {
  * - JSON - An object containing the requested instance's 'className', 'id', and attribute and relationship
  *    values.
  */
-router.post('/get', async (request, response) => {
+router.post('/get', async (ctx, body) => {
     try {
-        const instance = await MiraController.get(request.body);
-        response.json(instance);
+        const instance = await MiraController.get(ctx.body);
+        ctx.body = JSON.stringify(instance);
     }
     catch (error) {
-        response.status(500).json({ error: error.message });
+        ctx.status = 500;
+        ctx.body = JSON.stringify({ error: error.message });
     }
 });
 
@@ -84,17 +81,18 @@ router.post('/get', async (request, response) => {
  *       were ommitted due to read control filtering.
  * -- totalNumberOfInstances - Number - The number of instances matching the query in the database. * 
  */
-router.post('/getInstances', async (request, response) => {
+router.post('/getInstances', async (ctx, next) => {
     try {
-        const data = request.body;
+        const data = ctx.request.body;
 
         const instances = await MiraController.getInstances(
             data.className, data.filter, data.page, data.pageSize, data.orderBy
         );
-        response.json(instances);
+        ctx.body = JSON.stringify(instances);
     }
     catch (error) {
-        response.status(500).json({ error: error.message });
+        ctx.status = 500;
+        ctx.body =  JSON.stringify({ error: error.message });
     }
 });
 
@@ -116,25 +114,25 @@ router.post('/getInstances', async (request, response) => {
  * - JSON - Array - An array containing an object for each Instance that was updated or created. The 
  *    objects in the array contain 'className', 'id', and 'created' properties.
  */
-router.post('/put', async (request, response) => {
+router.post('/put', async (ctx, next) => {
     try {
-        const result = await MiraController.put(request.body);
-        response.json({
+        const result = await MiraController.put(ctx.request.body);
+        ctx.body = JSON.stringify({
             status: 'successful',
             result,
         });
-        
-        console.log('here1');
     }
     catch (error) {
         if (error instanceof NoommanValidationError) {
-            response.status(500).json({
+            ctx.status = 500;
+            ctx.body = JSON.stringify({
                 error: error.message,
                 invalidProperties: error.properties,
             });
         }
         else {
-            response.status(500).json({ error: error.message });
+            ctx.status = 500;
+            ctx.body = JSON.stringify({ error: error.message });
         }
     }
 });
@@ -150,17 +148,18 @@ router.post('/put', async (request, response) => {
  * - JSON - Object - An Object with properties'className', 'id', and 'deleted'. 'deleted 
  *    indicates whether the instance was deleted successfully.
  */
-router.post('/delete', async (request, response) => {
+router.post('/delete', async (ctx, next) => {
     try {
-        const result = await MiraController.deleteInstance(request.body);
-        response.json({
+        const result = await MiraController.deleteInstance(ctx.request.body);
+        ctx.body = JSON.stringify({
             className: request.body.className,
             id: request.body.id,
             deleted: result,
         });
     }
     catch (error) {
-        response.status(500).json({ error: error.message });
+        ctx.status = 500;
+        ctx.body = JSON.stringify({ error: error.message });
     }
 });
 

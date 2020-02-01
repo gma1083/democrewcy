@@ -21,14 +21,14 @@ const Account = new ClassModel({
             toClass : 'User',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'User'
         },
         {
             name : 'token',
-            toClass : 'token',
+            toClass : 'Token',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'Token'
         }
     ]
   
