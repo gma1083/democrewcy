@@ -11,7 +11,7 @@ const MiraController = require('../controllers/MiraController');
  * Response:
  *  JSON - An Array containing the names of all the ClassModels.
  */
-router.get('/', (ctx, next) => {
+router.get('/mira/', (ctx, next) => {
     ctx.body = JSON.stringify(MiraController.getClassModels());
 });
 
@@ -23,10 +23,10 @@ router.get('/', (ctx, next) => {
  *    array of nested objects containing the details of each attribute and relationship for the
  *    requested ClassModel.
  */
-router.get('/:className', (ctx, next) => {
+router.get('/mira/:className', (ctx, next) => {
     let schema;
     try {
-           schema = MiraController.schemaForClassModel(ctx.body.className);
+           schema = MiraController.schemaForClassModel(ctx.params.className);
            ctx.body = JSON.stringify(schema);
     }
     catch (error) {
@@ -52,7 +52,7 @@ router.get('/:className', (ctx, next) => {
  * - JSON - An object containing the requested instance's 'className', 'id', and attribute and relationship
  *    values.
  */
-router.post('/get', async (ctx, body) => {
+router.post('/mira/get', async (ctx, body) => {
     try {
         const instance = await MiraController.get(ctx.body);
         ctx.body = JSON.stringify(instance);
@@ -81,7 +81,7 @@ router.post('/get', async (ctx, body) => {
  *       were ommitted due to read control filtering.
  * -- totalNumberOfInstances - Number - The number of instances matching the query in the database. * 
  */
-router.post('/getInstances', async (ctx, next) => {
+router.post('/mira/getInstances', async (ctx, next) => {
     try {
         const data = ctx.request.body;
 
@@ -114,7 +114,7 @@ router.post('/getInstances', async (ctx, next) => {
  * - JSON - Array - An array containing an object for each Instance that was updated or created. The 
  *    objects in the array contain 'className', 'id', and 'created' properties.
  */
-router.post('/put', async (ctx, next) => {
+router.post('/mira/put', async (ctx, next) => {
     try {
         const result = await MiraController.put(ctx.request.body);
         ctx.body = JSON.stringify({
@@ -148,7 +148,7 @@ router.post('/put', async (ctx, next) => {
  * - JSON - Object - An Object with properties'className', 'id', and 'deleted'. 'deleted 
  *    indicates whether the instance was deleted successfully.
  */
-router.post('/delete', async (ctx, next) => {
+router.post('/mira/delete', async (ctx, next) => {
     try {
         const result = await MiraController.deleteInstance(ctx.request.body);
         ctx.body = JSON.stringify({

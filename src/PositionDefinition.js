@@ -22,35 +22,35 @@ const PositionDefinition = new ClassModel({
     ],
     relationships : [
         {
-            name : 'position',
+            name : 'positions',
             toClass : 'Position',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'positionDefinition'
         },
         {
             name : 'createPosition',
             toClass : 'CreatePosition',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'positionDefinition'
         },
         {
             name : 'group',
             toClass : 'Group',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'positionDefinitions'
         },
         {
-            name : 'appointment',
+            name : 'appointments',
             toClass : 'Appointment',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'positionDefinition'
         }
     ]
   
 });
 
-module.exports = PositionDescription;
+module.exports = PositionDefinition;

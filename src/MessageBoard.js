@@ -21,14 +21,14 @@ const MessageBoard = new ClassModel({
             toClass : 'User',
             singular : false,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'messageBoards'
         },
         {
             name : 'messages',
             toClass : 'Message',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'messageBoard'
         }
     ]
   

@@ -10,7 +10,7 @@ const Channelable = new ClassModel({
             toClass : 'Channel',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'channelable'
         }
     ]
   

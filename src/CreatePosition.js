@@ -12,7 +12,7 @@ const CreatePosition = new ClassModel({
             toClass : 'PositionDefinition',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'createPosition'
         }
     ]
   

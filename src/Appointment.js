@@ -12,22 +12,30 @@ const Appointment = new ClassModel({
             toClass : 'Position',
             singular : true,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'appointments'
         },
         {
             name : 'user',
             toClass : 'User',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'appointments'
         },
         {
             name : 'positionDefinition',
             toClass : 'PositionDefinition',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'appointments'
+        },
+        {
+            name : 'positions',
+            toClass : 'Position',
+            singular : false,
+            required : false,
+            mirrorRelationship : 'appointments'
         }
+
     ]
   
 });

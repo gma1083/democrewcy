@@ -22,11 +22,11 @@ const Token = new ClassModel({
     ],
     relationships : [
         {
-            name : 'user',
-            toClass : 'User',
+            name : 'account',
+            toClass : 'Account',
             singular : true,
-            required : true,
-            mirrorRelationship : true
+            required : false,
+            mirrorRelationship : 'token'
         }
     ]
   

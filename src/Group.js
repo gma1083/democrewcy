@@ -23,35 +23,35 @@ const Group = new ClassModel({
             toClass : 'PositionDefinition',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'group'
         },
         {
             name : 'positions',
             toClass : 'Position',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'group'
         },
         {
             name : 'motions',
             toClass : 'Motion',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'group'
         },
         {
             name : 'subGroups',
             toClass : 'Group',
             singular : true,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'superGroup'
         },
         {
             name : 'superGroup',
             toClass : 'Group',
             singular : true,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'subGroup'
         }
     ]
   

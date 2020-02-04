@@ -10,14 +10,14 @@ const IndividualVote = new ClassModel({
             toClass : 'Position',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'individualVotes'
         },
         {
             name : 'vote',
             toClass : 'Vote',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'individualVotes'
         },
         {
             name : 'voteOption',

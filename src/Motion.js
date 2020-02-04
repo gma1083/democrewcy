@@ -23,42 +23,42 @@ const Motion = new ClassModel({
             toClass : 'Group',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'motion'
         },
         {
             name : 'proposedBy',
             toClass : 'Position',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'motion'
         },
         {
             name : 'vote',
             toClass : 'Vote',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'motion'
         },
         {
             name : 'event',
             toClass : 'Event',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'motion'
         },
         {
             name : 'previousMotion',
             toClass : 'Motion',
             singular : true,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'nextMotion'
         },
         {
             name : 'nextMotion',
             toClass : 'Motion',
             singular : true,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'previousMotion'
         }
     ]
   

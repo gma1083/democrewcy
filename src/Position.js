@@ -10,42 +10,42 @@ const Position = new ClassModel({
             toClass : 'PositionDefinition',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'positions'
         },
         {
             name : 'group',
             toClass : 'Group',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'positions'
         },
         {
             name : 'user',
             toClass : 'User',
             singular : true,
             required : true,
-            mirrorRelationship : true
+            mirrorRelationship : 'positions'
         },
         {
-            name : 'individualVote',
+            name : 'individualVotes',
             toClass : 'IndividualVote',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'position'
         },
         {
-            name : 'appointment',
+            name : 'appointments',
             toClass : 'Appointment',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'positions'
         },
         {
             name : 'motion',
             toClass : 'Motion',
             singular : false,
             required : false,
-            mirrorRelationship : true
+            mirrorRelationship : 'position'
         }
     ]
   
