@@ -11,7 +11,7 @@ const MiraController = require('../controllers/MiraController');
  * Response:
  *  JSON - An Array containing the names of all the ClassModels.
  */
-router.get('/mira/', (ctx, next) => {
+router.get('/mira/', async (ctx, next) => {
     ctx.body = JSON.stringify(MiraController.getClassModels());
 });
 
@@ -26,8 +26,8 @@ router.get('/mira/', (ctx, next) => {
 router.get('/mira/:className', (ctx, next) => {
     let schema;
     try {
-           schema = MiraController.schemaForClassModel(ctx.params.className);
-           ctx.body = JSON.stringify(schema);
+        schema = MiraController.schemaForClassModel(ctx.params.className);
+        ctx.body = JSON.stringify(schema);
     }
     catch (error) {
         console.log('schema error: ' + error.message);
