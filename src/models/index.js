@@ -1,4 +1,3 @@
-const Account = require('./Account');
 const Appointment = require('./Appointment');
 const Channel = require('./Channel');
 const Channelable = require('./Channelable');

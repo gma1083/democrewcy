@@ -15,6 +15,21 @@ const User = new ClassModel({
             required : true,
         },
         {
+            name : 'email',
+            type : String,
+            required : true,
+        },
+        {
+            name : 'password',
+            type : String,
+            required : true,
+        },
+        {
+            name : 'admin',
+            type : String,
+            required : false,
+        },
+        {
             name : 'birthDate',
             type : Date,
             required : true,
@@ -22,18 +37,11 @@ const User = new ClassModel({
     ],
     relationships : [          
         {
-            name : 'account',
-            toClass : 'Account',
-            singular : true,
-            required : true,
-            mirrorRelationship : 'user'
-        },
-        {
             name : 'events',
             toClass : 'Event',
             singular : false,
             required : false,
-            mirrorRelationship : 'users'
+            mirrorRelationship : 'attendees'
         },
         {
             name : 'appointments',
@@ -62,6 +70,13 @@ const User = new ClassModel({
             singular : false,
             required : false,
             mirrorRelationship : 'users'
+        },
+        {
+            name : 'token',
+            toClass : 'Token',
+            singular : true,
+            required : false,
+            mirrorRelationship : 'user'
         }
     ]
   

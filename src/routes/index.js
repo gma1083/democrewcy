@@ -1,6 +1,6 @@
 const Router = require('koa-router');
 const passport = require('koa-passport');
-const AccountController = require('../controllers/AccountController');
+const UserController = require('../controllers/UserController');
 
 const router = new Router();
 
@@ -8,10 +8,10 @@ router.post('/createAccount', async (ctx) => {
 
     if(ctx.state.user.admin) {
         try {
-            await AccountController.createAccount(ctx.request.body);
+            await UserController.createUser(ctx.request.body);
             ctx.status = 200;
             ctx.body = {
-                message : 'Account Created!'
+                message : 'User Created!'
             }
         }
         catch(error) {

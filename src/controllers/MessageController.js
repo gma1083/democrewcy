@@ -4,8 +4,8 @@ const Message = require('../models/Message');
 const MessageBoard = require('../models/MessageBoard');
 const Instance = Noomman.Instance;
 
-async function createMessage(messageData, activeAccount) {
-   if((await activeAccount.user).id !== messageData.user) throw new Error('Imposter Alert!');
+async function createMessage(messageData, activeUser) {
+   // if((await activeUser).id !== messageData.user) throw new Error('Imposter Alert!');
 
     if(!messageData) throw new Error('Message Body Is Null Or Undefinied');
     const body = messageData.body;
@@ -23,7 +23,7 @@ async function createMessage(messageData, activeAccount) {
     message.user = user;
     message.messageBoard = messageBoard;
 
-    await message.save();
+    await message.save(activeUser);
     return message;
 }
 

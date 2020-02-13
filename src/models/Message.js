@@ -37,8 +37,24 @@ const Message = new ClassModel({
         //     required : false,
         //     mirrorRelationship : 'messages'
         // }
-    ]
+    ],
+    crudControls: {
+        createControl: requesterMatchesUser,
+        readControl: requesterMatchesGroupUser,
+        updateControl: requesterMatchesUser,
+        deleteControl: requesterMatchesUser,
+    }
   
 });
+
+async function requesterMatchesUser(loggedInUser) {
+    if((await this.user).id === loggedInUser.id) return true;
+    else return false;
+}
+
+async function requesterMatchesGroupUser(loggedInUser) {
+    if((await (await this.messageBoard).users).hasInstanceWithId(loggedInUser._id)) return true;
+    else return false;
+}
 
 module.exports = Message;

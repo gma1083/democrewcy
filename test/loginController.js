@@ -1,6 +1,5 @@
 const Noomman = require('noomman');
-const loginController = require('../src/controllers/loginController');
-const Account = require('../src/models/Account');
+const loginController = require('../src/controllers/LoginController');
 const User = require('../src/models/User');
 const Instance = Noomman.Instance;
 
@@ -21,35 +20,25 @@ describe('loginController.js Tests', () => {
     describe('Claim Account Tests', () => {
 
         before(async () => {
-            await Account.clear();
             await User.clear();
         });
 
         it('Claim Account - Happy Path', async () => {
 
-            const accountData = {
-                email : 'milad@gmail.com',
-                password : "TempPassword"
-            }
-            const account = new Instance(Account);
-            account.assign(accountData);
-
-
             const userData = {
                 firstName : "Greg",
                 lastName : "Arnheiter",
-                birthDate : new Date()
+                birthDate : new Date(),
+                email : 'milad@gmail.com',
+                password : "TempPassword"
             }
+
             const user = new Instance(User);
             user.assign(userData);
 
-            account.user = user;
-            user.account = account;
-
-            await account.save();
             await user.save();
 
-            const textId = account.id;
+            const textId = user.id;
 
             const request = {
                 className : "Account",
@@ -58,12 +47,12 @@ describe('loginController.js Tests', () => {
                 password : "DontStealMyPassword"
             };
 
-            await loginController.claimAccount(request);
+            await loginController.claimUser(request);
             
-            const foundAccount = await Account.findById(account._id);
+            const foundUser = await User.findById(user._id);
 
-            if(foundAccount.email !== request.email) throw new Error('Claim Account Failed - Email Mismatch');
-            if(foundAccount.password !== request.password) throw new Error('Claim Account Failed - Password Mismatch');
+            if(foundUser.email !== request.email) throw new Error('Claim User Failed - Email Mismatch');
+            if(foundUser.password !== request.password) throw new Error('Claim User Failed - Password Mismatch');
 
         });
 
@@ -77,17 +66,17 @@ describe('loginController.js Tests', () => {
             };
 
             try {
-                await loginController.claimAccount(request);
+                await loginController.claimUser(request);
             }
             catch(error) {
                 console.log(error.message);
-                if(error.message !== 'Account ID is not Valid') throw new Error('Claim Account Error Should Be: Account ID is not Valid');
+                if(error.message !== 'User ID is not Valid') throw new Error('Claim User Error Should Be: User ID is not Valid');
             }
 
 
         });
 
-        it('Claim Account - Account Does Not Exist', async () => {
+        it('Claim User - User Does Not Exist', async () => {
 
             const request = {
                 className : "Account",
@@ -97,11 +86,11 @@ describe('loginController.js Tests', () => {
             };
 
             try {
-                await loginController.claimAccount(request);
+                await loginController.claimUser(request);
             }
             catch(error) {
                 console.log(error.message);
-                if(error.message !== 'No Account With That ID') throw new Error('Claim Account Error Should Be: No Account With That ID');
+                if(error.message !== 'No User With That ID') throw new Error('Claim User Error Should Be: No User With That ID');
             }
 
 
@@ -110,11 +99,11 @@ describe('loginController.js Tests', () => {
         it('Claim Account - Request Body Is Null', async () => {
 
             try {
-                await loginController.claimAccount(null);
+                await loginController.claimUser(null);
             }
             catch(error) {
                 console.log(error.message);
-                if(error.message !== 'Claim Account Request Body is Null or Undefined') throw new Error('Claim Account Error Should Be: Claim Account Request Body is Null or Undefined');
+                if(error.message !== 'Claim User Request Body is Null or Undefined') throw new Error('Claim User Error Should Be: Claim User Request Body is Null or Undefined');
             }
 
 
