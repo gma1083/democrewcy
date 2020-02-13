@@ -25,18 +25,18 @@ const Message = new ClassModel({
         },
         {
             name : 'messageBoard',
-            toClass : 'messageBoard',
+            toClass : 'MessageBoard',
             singular : true,
             required : true,
             mirrorRelationship : 'messages'
-        },
-        {
-            name : 'externalLink',
-            toClass : 'externalLink',
-            singular : false,
-            required : false,
-            mirrorRelationship : 'messages'
-        }
+        }//,
+        // {
+        //     name : 'externalLink',
+        //     toClass : 'ExternalLink',
+        //     singular : false,
+        //     required : false,
+        //     mirrorRelationship : 'messages'
+        // }
     ]
   
 });

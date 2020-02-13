@@ -26,7 +26,7 @@ async function createAccount(body) {
     await account.save();
     await user.save();
  
-    return account._id;
+    return account;
 
 }
 

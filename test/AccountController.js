@@ -24,7 +24,7 @@ describe('AccountController.js Tests', () => {
             await User.clear();
         });
 
-        it.only('Create Account - Happy Path', async () => {
+        it('Create Account - Happy Path', async () => {
 
             const data = {
                 className : 'Account',
@@ -37,17 +37,18 @@ describe('AccountController.js Tests', () => {
                 }
             };
 
-            const savedAccountId = await AccountController.createAccount(data);
-            const foundAccount = await Account.findById(savedAccountId);
+            const savedAccount = await AccountController.createAccount(data);
+            const foundAccount = await Account.findById(savedAccount._id);
+            const foundUser = await foundAccount.user;
 
             if(foundAccount === null) throw new Error('Saved Account is Null');
             if(foundAccount.email !== data.email) throw new Error('Account Save Failed - Incorrect Email');
             if(foundAccount.password !== data.password) throw new Error('Account Save Failed - Incorrect Password');
 
-
-
-
-
+            if(foundUser === null) throw new Error('Saved Account is Null');
+            if(foundUser.firstName !== data.user.firstName) throw new Error('Account Save Failed - Incorrect User First Name');
+            if(foundUser.lastName !== data.user.lastName) throw new Error('Account Save Failed - Incorrect User Last Name');
+            if(foundUser.birthDate.getTime() !== data.user.birthDate.getTime()) throw new Error('Account Save Failed - Incorrect User birthDate');
 
 
         });

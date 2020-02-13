@@ -8,11 +8,17 @@ const Account = new ClassModel({
             name : 'email',
             type : String,
             required : true,
+            unique : true
         },
         {
             name : 'password',
             type : String,
             required : true,
+        },
+        {
+            name : 'admin',
+            type : Boolean,
+            required : false,
         }
     ],
     relationships : [
