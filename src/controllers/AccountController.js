@@ -9,7 +9,7 @@ async function createAccount(body) {
     const password = body.password;
     const firstName = body.user.firstName;
     const lastName = body.user.lastName;
-    const birthDate = body.user.birthDate;
+    const birthDate = new Date(body.user.birthDate);
 
     const account = new Instance(Account);
     account.email = email;

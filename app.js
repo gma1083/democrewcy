@@ -43,11 +43,13 @@ async function protectRoutes(ctx, next) {
 
 const indexRoutes = require('./src/routes/login');
 const miraRoutes = require('./src/routes/mira');
+const gregsRoutes = require('./src/routes/index');
 
 // Routes
 app.use(protectRoutes);
 app.use(indexRoutes.routes());
 app.use(miraRoutes.routes());
+app.use(gregsRoutes.routes());
 app.use(indexRoutes.allowedMethods);
 
 app.use(async (ctx, next) => {
