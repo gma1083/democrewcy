@@ -2,6 +2,7 @@ const Appointment = require('./Appointment');
 const Channel = require('./Channel');
 const Channelable = require('./Channelable');
 const CreatePosition = require('./CreatePosition');
+const DirectMessage = require('./DirectMessage');
 const Event = require('./Event');
 const Group = require('./Group');
 const IndividualVote = require('./IndividualVote');

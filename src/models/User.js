@@ -65,8 +65,8 @@ const User = new ClassModel({
             mirrorRelationship : 'user'
         },
         {
-            name : 'messageBoards',
-            toClass : 'MessageBoard',
+            name : 'directMessages',
+            toClass : 'DirectMessage',
             singular : false,
             required : false,
             mirrorRelationship : 'users'

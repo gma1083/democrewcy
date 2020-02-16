@@ -17,13 +17,6 @@ const MessageBoard = new ClassModel({
     ],
     relationships : [
         {
-            name : 'users',
-            toClass : 'User',
-            singular : false,
-            required : true,
-            mirrorRelationship : 'messageBoards'
-        },
-        {
             name : 'messages',
             toClass : 'Message',
             singular : false,

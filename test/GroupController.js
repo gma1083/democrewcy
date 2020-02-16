@@ -70,7 +70,7 @@ describe('GroupController.js Tests', () => {
            
         });
 
-        it.only('Create Group Test - Happy Path', async () => {
+        it('Create Group Test - Happy Path', async () => {
  
             const groupData = {
                 className : "Group",
