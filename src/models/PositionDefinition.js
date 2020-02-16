@@ -32,7 +32,7 @@ const PositionDefinition = new ClassModel({
             name : 'createPosition',
             toClass : 'CreatePosition',
             singular : true,
-            required : true,
+            required : false,
             mirrorRelationship : 'positionDefinition'
         },
         {

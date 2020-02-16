@@ -25,8 +25,12 @@ describe('GroupController.js Tests', () => {
     describe('Create Group Tests', () => {
 
         let channel;
-        let user;
-        let users;
+        let user1;
+        let user2;
+        let users = [];
+        let positionDefinition1;
+        let positionDefinition2;
+        let positionDefinitions = [];
 
         before(async () => {
             await Group.clear();
@@ -34,15 +38,36 @@ describe('GroupController.js Tests', () => {
             await Channel.clear();
             await User.clear();
 
-            user = new Instance(User);
-            user.firstName = "Harry",
-            user.lastName = "Potter",
-            user.birthDate = new Date('1980-07-31');
-            user.email = "harry@potter.com",
-            user.password = "lemonDrop"
+            user1 = new Instance(User);
+            user1.firstName = "Harry",
+            user1.lastName = "Potter",
+            user1.birthDate = new Date('1980-07-31');
+            user1.email = "harry@potter.com";
+            user1.password = "lemonDrop";
 
-            users = new InstanceSet(User, [user]);
-            await user.save();
+            user2 = new Instance(User);
+            user2.firstName = "Ron",
+            user2.lastName = "Weasley",
+            user2.birthDate = new Date('1980-03-01');
+            user2.email = "ron@weasley.com";
+            user2.password = "fizzingWhizbee";
+
+            await user1.save();
+            await user2.save();
+
+            users.push(user1, user2);
+
+            positionDefinition1 = new Instance(PositionDefinition);
+            positionDefinition1.title = 'Pleb';
+            positionDefinition1.description = 'Worthless';
+            positionDefinition1.unique = false;
+            positionDefinition2 = new Instance(PositionDefinition);
+            positionDefinition2.title = 'Wizard';
+            positionDefinition2.description = 'Omnipotent';
+            positionDefinition2.unique = false;
+
+            positionDefinitions.push(positionDefinition1, positionDefinition2);            
+           
         });
 
         it.only('Create Group Test - Happy Path', async () => {
@@ -51,10 +76,11 @@ describe('GroupController.js Tests', () => {
                 className : "Group",
                 name : "Test Group Name",
                 description : "Test Group Description",
+                positionDefinitions : positionDefinitions,
                 channel : {
                     className : "Channel",
                     users : users
-                }  
+                }
             };
         
             const newGroup = await GroupController.createGroup(groupData);

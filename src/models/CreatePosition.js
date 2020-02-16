@@ -11,7 +11,7 @@ const CreatePosition = new ClassModel({
             name : 'positionDefinition',
             toClass : 'PositionDefinition',
             singular : true,
-            required : true,
+            required : false,
             mirrorRelationship : 'createPosition'
         }
     ]
