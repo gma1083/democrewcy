@@ -36,13 +36,6 @@ const PositionDefinition = new ClassModel({
             mirrorRelationship : 'positionDefinition'
         },
         {
-            name : 'group',
-            toClass : 'Group',
-            singular : true,
-            required : true,
-            mirrorRelationship : 'positionDefinitions'
-        },
-        {
             name : 'appointments',
             toClass : 'Appointment',
             singular : false,

@@ -1,5 +1,9 @@
 const noomman = require('noomman');
 const ClassModel = noomman.ClassModel;
+const PositionDefinition = require('./PositionDefinition');
+const InstanceSet = noomman.InstanceSet;
+
+
 
 const User = new ClassModel({
     className : 'User',
@@ -78,8 +82,21 @@ const User = new ClassModel({
             required : false,
             mirrorRelationship : 'user'
         }
-    ]
-  
+    ],
+    nonStaticMethods: {
+        positionDefintions,
+    }
 });
+
+async function positionDefintions() {
+    const positions = await this.positions;
+    const positionDefinitions = new InstanceSet(PositionDefinition);
+
+    for (const position of positions) {
+        positionDefinitions.add(await position.positionDefinition);
+    }
+
+    return positionDefinitions;
+}
 
 module.exports = User;

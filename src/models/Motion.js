@@ -19,6 +19,13 @@ const Motion = new ClassModel({
     
     relationships : [
         {
+            name : 'position',
+            toClass : 'Position',
+            singular : true,
+            required : true,
+            mirrorRelationship : 'motion'
+        },
+        {
             name : 'group',
             toClass : 'Group',
             singular : true,

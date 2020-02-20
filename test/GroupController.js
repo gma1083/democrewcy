@@ -1,5 +1,6 @@
 const Noomman = require('noomman');
 const Group = require('../src/models/Group');
+const Position = require('../src/models/Position');
 const PositionDefinition = require('../src/models/PositionDefinition');
 const User = require('../src/models/User');
 const Channel = require('../src/models/Channel');
@@ -28,12 +29,12 @@ describe('GroupController.js Tests', () => {
         let user1;
         let user2;
         let users = [];
-        let positionDefinition1;
-        let positionDefinition2;
-        let positionDefinitions = [];
+        let userSet = new InstanceSet(User);
+        let standardPositionDefinition; 
 
         before(async () => {
             await Group.clear();
+            await Position.clear();
             await PositionDefinition.clear();
             await Channel.clear();
             await User.clear();
@@ -55,44 +56,52 @@ describe('GroupController.js Tests', () => {
             await user1.save();
             await user2.save();
 
-            users.push(user1, user2);
-
-            positionDefinition1 = new Instance(PositionDefinition);
-            positionDefinition1.title = 'Pleb';
-            positionDefinition1.description = 'Worthless';
-            positionDefinition1.unique = false;
-            positionDefinition2 = new Instance(PositionDefinition);
-            positionDefinition2.title = 'Wizard';
-            positionDefinition2.description = 'Omnipotent';
-            positionDefinition2.unique = false;
-
-            positionDefinitions.push(positionDefinition1, positionDefinition2);            
+            users.push(user1, user2); 
+            userSet.addInstances(users);
+            
+            standardPositionDefinition = new Instance(PositionDefinition);
+            standardPositionDefinition.title = 'Standard';
+            standardPositionDefinition.description = 'Default Position';
+            standardPositionDefinition.unique = false;
+            await standardPositionDefinition.save();
            
         });
 
-        it('Create Group Test - Happy Path', async () => {
+        it.only('Create Group Test - Happy Path', async () => {
  
             const groupData = {
                 className : "Group",
                 name : "Test Group Name",
                 description : "Test Group Description",
-                positionDefinitions : positionDefinitions,
-                channel : {
-                    className : "Channel",
-                    users : users
-                }
+                users : users
             };
         
             const newGroup = await GroupController.createGroup(groupData);
             const foundGroup = await Group.findById(newGroup._id);
+            const groupPositions = await foundGroup.positions;
+            const groupPositionDefinitions = await foundGroup.positionDefinitions;
         
-            if(!(foundGroup.name === newGroup.name)) throw new Error('Create Group Failed - Names Dont Match');
+            if(!(foundGroup.name === newGroup.name)) 
+                throw new Error('Create Group Failed - Names Dont Match');
+
+            if(!(foundGroup.description === newGroup.description)) 
+                throw new Error('Create Group Failed - Description Doesnt Match');
+
+            for(const position of groupPositions) {
+                if(!userSet.hasInstance(await position.user)) 
+                    throw new Error('Create Group Failed - Group Occupied Positions Dont Contain The Right Users');
+                else if(!groupPositionDefinitions.hasInstance(await position.positionDefinition)) 
+                    throw new Error('Create Group Failed - Group Occupied Positions Dont Contain The Right Position Definitions');
+            };
+
+            for(const user of users) {
+                let userPositionDefinitions = await user.positionDefintions();
+                let positionDefinitionForUser = [...userPositionDefinitions][0];
+                if(positionDefinitionForUser.id !== standardPositionDefinition.id) 
+                    throw new Error('Create Group Failed - Group Users Werent Assigned The Correct Positions');
+            };
 
         });
-
-        
-
-
 
     });
 

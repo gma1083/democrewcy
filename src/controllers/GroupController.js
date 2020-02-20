@@ -3,6 +3,7 @@ const Group = require('../models/Group');
 const Channel = require('../models/Channel');
 const User = require('../models/User');
 const PositionDefinition = require('../models/PositionDefinition');
+const Position = require('../models/Position');
 
 const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
@@ -12,20 +13,27 @@ async function createGroup(data) {
     group.name = data.name;
     group.description = data.description;
 
-    const users = new InstanceSet(User, data.channel.users);
+    const positionDefinition = await PositionDefinition.findOne({title : 'Standard'});
+    group.positionDefinitions = new InstanceSet(PositionDefinition, [positionDefinition]);
 
-    const positionDefinitions = new InstanceSet(PositionDefinition, data.positionDefinitions);
+    const users = new InstanceSet(User, data.users);
+    const positions = new InstanceSet(Position);
 
-    const channel = new Instance(Channel);
-    channel.users = users;
-    channel.channelable = group;
+    users.forEach((user) => {
+      const position = new Instance(Position);
+      position.group = group;
+      position.user = user;
+      position.positionDefinition = positionDefinition;
+      user.position = position;
+      positions.add(position);
+    });
     
+    const channel = new Instance(Channel);
+    
+    channel.channelable = group;
     group.channel = channel;
-    group.positionDefinitions = positionDefinitions;
 
-    positionDefinitions.forEach((positionDefinition) => positionDefinition.group = group);
-
-    await positionDefinitions.save();
+    await positions.save();
     await group.save();
     await channel.save();
 

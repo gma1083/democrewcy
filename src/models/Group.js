@@ -22,8 +22,7 @@ const Group = new ClassModel({
             name : 'positionDefinitions',
             toClass : 'PositionDefinition',
             singular : false,
-            required : false,
-            mirrorRelationship : 'group'
+            required : false
         },
         {
             name : 'positions',
