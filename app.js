@@ -2,7 +2,7 @@ const Koa = require('koa');
 const bodyParser = require('koa-body');
 const logger = require('koa-logger');
 const session = require('koa-session');
-const cors = require('koa-cors');
+const cors = require('kcors');
 
 const Noomman = require('noomman');
 
@@ -18,7 +18,7 @@ const app = new Koa();
 app.use(bodyParser());
 
 app.use(logger());
-app.use(cors());
+app.use(cors({credentials: true}));
 
 // sessions
 app.keys = ['super-secret-key'];
