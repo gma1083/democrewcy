@@ -84,11 +84,11 @@ const User = new ClassModel({
         }
     ],
     nonStaticMethods: {
-        positionDefintions,
+        positionDefinitions,
     }
 });
 
-async function positionDefintions() {
+async function positionDefinitions() {
     const positions = await this.positions;
     const positionDefinitions = new InstanceSet(PositionDefinition);
 
