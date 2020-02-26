@@ -19,7 +19,7 @@ const User = require('../../src/models/User');
 const Vote = require('../../src/models/Vote');
 const VoteOption = require('../../src/models/VoteOption');
 
-const seedDB = require('../../aux/seedDB');
+const seedDB = require('../../util/seedDB');
 
 require('../../src/models/index');
 

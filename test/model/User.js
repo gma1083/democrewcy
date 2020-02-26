@@ -3,7 +3,7 @@ const User = require('../../src/models/User');
 const Group = require('../../src/models/Group');
 const Position = require('../../src/models/Position');
 const PositionDefinition = require('../../src/models/PositionDefinition');
-const seedDB = require('../../aux/seedDB');
+const seedDB = require('../../util/seedDB');
 
 const Instance = Noomman.Instance;
 
