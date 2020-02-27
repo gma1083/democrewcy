@@ -21,7 +21,7 @@ const IndividualVote = new ClassModel({
         },
         {
             name : 'voteOption',
-            toClass : 'voteOption',
+            toClass : 'VoteOption',
             singular : true,
             required : true
         },
