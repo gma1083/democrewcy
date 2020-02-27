@@ -294,6 +294,7 @@ async function parseDataToInstance(data) {
             const cardinality = classModel.cardinalityOfRelationship(relationship.name);
             if (data[relationship.name]) {
                 const toClass = ClassModel.getClassModel(relationship.toClass);
+                console.log('parsing ' + relationship.name);
                 
                 if (relationship.singular) {
                     let relatedInstance;
@@ -328,6 +329,7 @@ async function parseDataToInstance(data) {
                     for (const index in data[relationship.name]) {
                         let relatedInstance;
                         const idOrInstance = data[relationship.name][index];
+
                         if (typeof(idOrInstance) === 'string') {
                             const id = new noomman.ObjectId(idOrInstance);
                             relatedInstance = await toClass.findById(id);
@@ -342,11 +344,13 @@ async function parseDataToInstance(data) {
                             relatedInstance = recursiveInstances[0];
                         }
                         
-                        if (cardinality.from === '1') {
-                            relatedInstance[relationship.mirrorRelationship] = instance;
-                        }
-                        else {
-                            (await relatedInstance[relationship.mirrorRelationship]).add(instance);
+                        if (relationship.mirrorRelationship !== undefined) {
+                            if (cardinality.from === '1') {
+                                relatedInstance[relationship.mirrorRelationship] = instance;
+                            }
+                            else {
+                                (await relatedInstance[relationship.mirrorRelationship]).add(instance);
+                            }
                         }
                         relatedInstanceSet.add(relatedInstance);
                     }
