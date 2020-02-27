@@ -40,7 +40,7 @@ const Event = new ClassModel({
             toClass : 'Motion',
             singular : false,
             required : false,
-            mirrorRelationship : 'event'
+            mirrorRelationship : 'events'
         }
     ]
   

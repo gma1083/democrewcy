@@ -4,7 +4,7 @@
   "description": "By The Crew For The Crew",
   "main": "app.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha --recursive --timeout 5000",
+    "test": "node ./node_modules/mocha/bin/mocha --recursive --timeout 5000",
     "start": "nodemon app.js",
     "dev": "nodemon app.js"
   },
@@ -26,10 +26,10 @@
     "koa-passport": "^4.1.3",
     "koa-router": "^8.0.8",
     "koa-session": "^5.13.1",
-    "noomman": "^0.5.8",
+    "noomman": "^0.6.1",
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^7.0.1"
+    "mocha": "^7.1.0"
   }
 }
