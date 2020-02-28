@@ -120,6 +120,172 @@ describe('GroupController.js Tests', () => {
 
         });
 
+    describe('Sub Group Tests:', () => {
+
+        it('Get SubGroups - Group Doesnt Exist', async () => {
+            const group = new Instance(Group);
+            const request = {
+                className: "Group",
+                id: group.id
+            };
+            
+            try {
+                await GroupController.getSubGroups(request);
+                throw new Error('getSubgroups - Group Doesnt Exist Should Have Thrown \'Grou Not Found\' Error');
+            }
+            catch(error) {
+                if(error.message !== 'Group Not Found') throw new Error('getSubGroups Failed - Should Throw \'Group Not Found\' Error');
+            }
+           
+        });
+       
+        it('Get SubGroups - No SubGroups', async () => {
+            
+            const group = new Instance(Group);
+            const channel = new Instance(Channel);
+            const position = new Instance(Position);
+            
+            group.name = 'Testing';
+            group.description = 'Testing Sub Groups - No SubGroups';
+            group.channel = channel;
+            group.positions = new InstanceSet(Position, [position]);
+
+            channel.channelable = group;
+            
+            position.user = user1;
+            position.positionDefinition = standardPositionDefinition;
+            position.group = group;
+            position.startDate = new Date();
+
+            await group.save();
+
+            const request = {
+                className: "Group",
+                id: group.id
+            };
+
+            const response = await GroupController.getSubGroups(request);
+            if(response.length !== 0) throw new Error('Get SubGroups Should Have Returned An Empty Array')
+
+
+        });
+
+        it('Get SubGroups - One SubGroup', async () => {
+
+            const group = new Instance(Group);
+            const subGroup = new Instance(Group);
+            const groupChannel = new Instance(Channel);
+            const groupPosition = new Instance(Position);
+            const subGroupChannel = new Instance(Channel);
+            const subGroupPosition = new Instance(Position);
+            
+            group.name = 'Testing Group';
+            group.description = 'Testing Sub Groups - No SubGroups';
+            group.channel = groupChannel;
+            group.positions = new InstanceSet(Position, [groupPosition]);
+            group.subGroups = new InstanceSet(Group, [subGroup]);
+
+            subGroup.name = 'Testing SubGroup';
+            subGroup.description = 'Testing Sub Groups - No SubGroups';
+            subGroup.channel = subGroupChannel;
+            subGroup.positions = new InstanceSet(Position, [subGroupPosition]);
+            subGroup.superGroup = group;
+
+            groupChannel.channelable = group;
+            subGroupChannel.channelable = subGroup;
+            
+            groupPosition.user = user1;
+            groupPosition.positionDefinition = standardPositionDefinition;
+            groupPosition.group = group;
+            groupPosition.startDate = new Date();
+
+            subGroupPosition.user = user1;
+            subGroupPosition.positionDefinition = standardPositionDefinition;
+            subGroupPosition.group = subGroup;
+            subGroupPosition.startDate = new Date();
+
+            await group.save();
+            await subGroup.save();
+
+            const request = {
+                className: "Group",
+                id: group.id
+            };
+
+            const response = await GroupController.getSubGroups(request);
+            if(response.length !== 1) throw new Error('getSubGroups() Should Have Returned An Array With One Item');
+            if(response[0].id !== subGroup.id) throw new Error('getSubGroups() Returned An Unexpected Id For Its Only SubGroup');
+
+        });
+
+        it.only('Get SubGroups - Multiple SubGroups', async () => {
+
+            const group = new Instance(Group);
+            const subGroup = new Instance(Group);
+            const subGroup2 = new Instance(Group);
+            const groupChannel = new Instance(Channel);
+            const groupPosition = new Instance(Position);
+            const subGroupChannel = new Instance(Channel);
+            const subGroupPosition = new Instance(Position);
+            const subGroup2Channel = new Instance(Channel);
+            const subGroup2Position = new Instance(Position);
+            
+            group.name = 'Testing Group';
+            group.description = 'Testing Sub Groups - No SubGroups';
+            group.channel = groupChannel;
+            group.positions = new InstanceSet(Position, [groupPosition]);
+            group.subGroup = subGroup;
+
+            subGroup.name = 'Testing SubGroup';
+            subGroup.description = 'Testing Sub Groups - No SubGroups';
+            subGroup.channel = subGroupChannel;
+            subGroup.positions = new InstanceSet(Position, [subGroupPosition]);
+            subGroup.superGroup = group;
+
+            subGroup2.name = 'Testing SubGroup2';
+            subGroup2.description = 'Testing Sub Groups - No SubGroups';
+            subGroup2.channel = subGroup2Channel;
+            subGroup2.positions = new InstanceSet(Position, [subGroup2Position]);
+            subGroup2.superGroup = group;
+
+            groupChannel.channelable = group;
+            subGroupChannel.channelable = subGroup;
+            subGroup2Channel.channelable = subGroup2;
+            
+            groupPosition.user = user1;
+            groupPosition.positionDefinition = standardPositionDefinition;
+            groupPosition.group = group;
+            groupPosition.startDate = new Date();
+
+            subGroupPosition.user = user1;
+            subGroupPosition.positionDefinition = standardPositionDefinition;
+            subGroupPosition.group = subGroup;
+            subGroupPosition.startDate = new Date();
+
+            subGroup2Position.user = user1;
+            subGroup2Position.positionDefinition = standardPositionDefinition;
+            subGroup2Position.group = subGroup2;
+            subGroup2Position.startDate = new Date();
+
+            await group.save();
+            await subGroup.save();
+            await subGroup2.save();
+
+            const request = {
+                className: "Group",
+                id: group.id
+            };
+
+            const response = await GroupController.getSubGroups(request);
+            if(response.length !== 2) throw new Error('getSubGroups() Should Have Returned An Array With One Item');
+            if(response[0].id !== subGroup.id) throw new Error('getSubGroups() Returned An Unexpected Id For Its First SubGroup');
+            if(response[1].id !== subGroup2.id) throw new Error('getSubGroups() Returned An Unexpected Id For Its First SubGroup');
+
+        });
+
+
+    });
+
     });
 
 });

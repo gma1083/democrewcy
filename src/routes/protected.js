@@ -1,5 +1,6 @@
 const Router = require('koa-router');
 const UserController = require('../controllers/UserController');
+const GroupController = require('../controllers/GroupController');
 const noomman = require('noomman');
 const NoommanValidationError = noomman.NoommanErrors.NoommanValidationError;
 
@@ -15,7 +16,19 @@ router.post('/getMotions', notImplemented);
 
 router.post('/getPositions', notImplemented);
 
-router.post('/getSubGroups', notImplemented);
+router.post('/getSubGroups', async (ctx) => {
+    try {
+        const result = await GroupController.getSubGroups(ctx.request.body);
+        ctx.status = 200;
+        ctx.body = JSON.stringify(result);
+    }
+    catch(error) {
+        ctx.status = 400;
+        ctx.body = {
+            message : error.message
+        }
+    }
+});
 
 router.post('/getTopLevelGroups', notImplemented);
 

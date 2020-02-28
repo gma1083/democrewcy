@@ -45,6 +45,24 @@ async function createGroup(data) {
 
 }
 
+async function getSubGroups(data) {
+    const group = await Group.findById(data.id);
+    if(!group) throw new Error('Group Not Found');
+
+    const subGroups = await group.subGroups;
+    const response = [];
+
+    subGroups.forEach((subGroup) => {
+        const document = subGroup.toDocument();
+        document.id = subGroup.id;
+        delete document._id;
+        response.push(document);
+    });
+
+    return response;
+}
+
 module.exports = {
     createGroup,
+    getSubGroups,
 }
