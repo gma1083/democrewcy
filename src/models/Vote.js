@@ -24,7 +24,7 @@ const Vote = new ClassModel({
             singular : true,
             required : true,
             mirrorRelationship : 'vote'
-        }
+        },
     ]
   
 });

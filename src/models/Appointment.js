@@ -5,7 +5,6 @@ const Motion = require('./Motion');
 const Appointment = new ClassModel({
     className : 'Appointment',
     superClasses : [Motion],
-    
     relationships : [
         {
             name : 'createsPosition',
@@ -19,18 +18,15 @@ const Appointment = new ClassModel({
             toClass : 'User',
             singular : true,
             required : true,
-            mirrorRelationship : 'appointments'
         },
         {
             name : 'positionDefinition',
             toClass : 'PositionDefinition',
             singular : true,
             required : true,
-            mirrorRelationship : 'appointments'
         },
 
-    ]
-  
+    ],
 });
 
 module.exports = Appointment;

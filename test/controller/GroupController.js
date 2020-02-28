@@ -62,6 +62,7 @@ describe('GroupController.js Tests', () => {
             standardPositionDefinition = new Instance(PositionDefinition);
             standardPositionDefinition.title = 'Standard';
             standardPositionDefinition.description = 'Default Position';
+            standardPositionDefinition.allowedPositions = 0;
             standardPositionDefinition.unique = false;
             await standardPositionDefinition.save();
            
