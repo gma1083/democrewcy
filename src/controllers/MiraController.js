@@ -249,7 +249,7 @@ async function formatInstanceForGetRequest(instance, request) {
             }
         }
     }
-
+    
     return response;
 }
 
@@ -477,4 +477,5 @@ module.exports = {
     get,
     getInstances,
     deleteInstance,
+    formatInstanceForGetRequest,
 }

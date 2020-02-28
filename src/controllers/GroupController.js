@@ -4,6 +4,7 @@ const Channel = require('../models/Channel');
 const User = require('../models/User');
 const PositionDefinition = require('../models/PositionDefinition');
 const Position = require('../models/Position');
+const MiraController = require('./MiraController')
 
 const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
@@ -52,12 +53,16 @@ async function getSubGroups(data) {
     const subGroups = await group.subGroups;
     const response = [];
 
-    subGroups.forEach((subGroup) => {
-        const document = subGroup.toDocument();
-        document.id = subGroup.id;
-        delete document._id;
-        response.push(document);
-    });
+    for (const subGroup of subGroups) {
+        response.push(await MiraController.formatInstanceForGetRequest(subGroup));
+    }
+
+    // subGroups.forEach((subGroup) => {
+    //     const document = subGroup.toDocument();
+    //     document.id = subGroup.id;
+    //     delete document._id;
+    //     response.push(document);
+    // });
 
     return response;
 }
