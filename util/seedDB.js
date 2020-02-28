@@ -88,6 +88,7 @@ async function seedGroupModule() {
     position.group = group;
     position.positionDefinition = positionDefinition;
     position.user = user;
+    position.startDate = new Date();
 
     user.positions = positions;
     

@@ -103,6 +103,23 @@ describe('GroupController.js Tests', () => {
 
         });
 
+        it('Create Group Test - No Users', async () => {
+ 
+            const groupData = {
+                className : "Group",
+                name : "Test Group Name",
+                description : "Test Group Description"
+            };
+
+            try  {
+                const newGroup = await GroupController.createGroup(groupData);
+            }
+            catch(error) {
+                if(error.message !== 'At Least One User Is Required To Create A Group') throw new Error('CreateGroup Should Have Thrown Error Requiring At Least One User');
+            }
+
+        });
+
     });
 
 });

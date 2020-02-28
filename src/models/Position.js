@@ -3,6 +3,18 @@ const ClassModel = noomman.ClassModel;
 
 const Position = new ClassModel({
     className : 'Position',
+    attributes : [
+        {
+            name : 'startDate',
+            type : Date,
+            required : true,
+        },
+        {
+            name : 'endDate',
+            type : Date,
+            required : false,
+        },
+    ],
     
     relationships : [
         {

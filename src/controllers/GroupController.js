@@ -9,6 +9,8 @@ const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
 
 async function createGroup(data) {
+   if(!data.users) throw new Error('At Least One User Is Required To Create A Group');
+
     const group = new Instance(Group);
     group.name = data.name;
     group.description = data.description;
@@ -23,6 +25,7 @@ async function createGroup(data) {
       const position = new Instance(Position);
       position.group = group;
       position.user = user;
+      position.startDate = new Date();
       position.positionDefinition = positionDefinition;
       user.position = position;
       positions.add(position);
@@ -32,6 +35,7 @@ async function createGroup(data) {
     
     channel.channelable = group;
     group.channel = channel;
+    group.positions = positions;
 
     await positions.save();
     await group.save();

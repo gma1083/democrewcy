@@ -28,7 +28,7 @@ const Group = new ClassModel({
             name : 'positions',
             toClass : 'Position',
             singular : false,
-            required : false,
+            required : true,
             mirrorRelationship : 'group'
         },
         {
