@@ -41,15 +41,8 @@ const User = new ClassModel({
     ],
     relationships : [          
         {
-            name : 'events',
-            toClass : 'Event',
-            singular : false,
-            required : false,
-            mirrorRelationship : 'attendees'
-        },
-        {
-            name : 'appointments',
-            toClass : 'Appointment',
+            name : 'rsvps',
+            toClass : 'RSVP',
             singular : false,
             required : false,
             mirrorRelationship : 'user'
@@ -75,13 +68,6 @@ const User = new ClassModel({
             required : false,
             mirrorRelationship : 'users'
         },
-        {
-            name : 'token',
-            toClass : 'Token',
-            singular : true,
-            required : false,
-            mirrorRelationship : 'user'
-        }
     ],
     nonStaticMethods: {
         positionDefinitions,

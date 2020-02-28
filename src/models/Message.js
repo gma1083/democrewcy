@@ -7,7 +7,7 @@ const Message = new ClassModel({
         {
             name : 'body',
             type : String,
-            required : false,
+            required : true,
         },
         {
             name : 'sentAt',
@@ -29,18 +29,10 @@ const Message = new ClassModel({
             singular : true,
             required : true,
             mirrorRelationship : 'messages'
-        }//,
-        // {
-        //     name : 'externalLink',
-        //     toClass : 'ExternalLink',
-        //     singular : false,
-        //     required : false,
-        //     mirrorRelationship : 'messages'
-        // }
+        }
     ],
     crudControls: {
         createControl: requesterMatchesUser,
-        //readControl: requesterMatchesGroupUser,
         updateControl: requesterMatchesUser,
         deleteControl: requesterMatchesUser,
     }
@@ -51,10 +43,5 @@ async function requesterMatchesUser(loggedInUser) {
     if((await this.user).id === loggedInUser.id) return true;
     else return false;
 }
-
-// async function requesterMatchesGroupUser(loggedInUser) {
-//     if((await (await this.messageBoard).users).hasInstanceWithId(loggedInUser._id)) return true;
-//     else return false;
-// }
 
 module.exports = Message;

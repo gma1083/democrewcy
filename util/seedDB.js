@@ -15,7 +15,6 @@ const MessageBoard = require('../src/models/MessageBoard');
 const Motion = require('../src/models/Motion');
 const Position = require('../src/models/Position');
 const PositionDefinition = require('../src/models/PositionDefinition');
-const Token = require('../src/models/Token');
 const User = require('../src/models/User');
 const Vote = require('../src/models/Vote');
 const VoteOption = require('../src/models/VoteOption');
@@ -82,6 +81,7 @@ async function seedGroupModule() {
   
     positionDefinition.title = 'Standard Seed Position Definition';
     positionDefinition.description = 'Standard Position From SeedDB For Testing';
+    positionDefinition.allowedPositions = 0;
     positionDefinition.unique = false;
     positionDefinition.positions = positions;
  
@@ -126,7 +126,6 @@ async function clearAll() {
         Motion.clear(),
         Position.clear(),
         PositionDefinition.clear(),
-        Token.clear(),
         User.clear(),
         Vote.clear(),
         VoteOption.clear()

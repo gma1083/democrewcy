@@ -1,10 +1,11 @@
 const noomman = require('noomman');
 const ClassModel = noomman.ClassModel;
 const Channelable = require('./Channelable');
+const MotionContext = require('./MotionContext');
 
 const Event = new ClassModel({
     className : 'Event',
-    superClasses : [Channelable],
+    superClasses : [Channelable, MotionContext],
     attributes : [
         {
             name : 'name',
@@ -29,19 +30,19 @@ const Event = new ClassModel({
     ],
     relationships : [
         {
-            name : 'attendees',
-            toClass : 'User',
-            singular : false,
+            name : 'group',
+            toClass : 'Group',
+            singular : true,
             required : true,
             mirrorRelationship : 'events'
         },
         {
-            name : 'motions',
-            toClass : 'Motion',
+            name : 'rsvps',
+            toClass : 'RSVP',
             singular : false,
             required : false,
-            mirrorRelationship : 'events'
-        }
+            mirrorRelationship : 'event'
+        },
     ]
   
 });

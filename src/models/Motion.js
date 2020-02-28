@@ -19,8 +19,8 @@ const Motion = new ClassModel({
     
     relationships : [
         {
-            name : 'group',
-            toClass : 'Group',
+            name : 'motionContext',
+            toClass : 'MotionContext',
             singular : true,
             required : true,
             mirrorRelationship : 'motions'
@@ -38,13 +38,6 @@ const Motion = new ClassModel({
             singular : true,
             required : true,
             mirrorRelationship : 'motion'
-        },
-        {
-            name : 'events',
-            toClass : 'Event',
-            singular : false,
-            required : false,
-            mirrorRelationship : 'motions'
         },
         {
             name : 'previousMotion',
