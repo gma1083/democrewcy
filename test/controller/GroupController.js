@@ -1,4 +1,5 @@
 const Noomman = require('noomman');
+const database = require('../util/database');
 const Group = require('../../src/models/Group');
 const Position = require('../../src/models/Position');
 const PositionDefinition = require('../../src/models/PositionDefinition');
@@ -14,13 +15,13 @@ require('../../src/models/index');
 describe('GroupController.js Tests', () => {
 
     before(async () => {
-        const connected = await Noomman.connect('mongodb+srv://GregArnheiter:GregArnheiter@cluster0-rqft7.gcp.mongodb.net/test?retryWrites=true&w=majority', "democrewcy_test");
+        const connected = await database.connect();
         if(connected) console.log('Tests Are Connected.....');
         else console.log('Test Connections Failed');
     });
 
     after(async () => {
-        await Noomman.close();
+        await database.close();
     });
 
     describe('Create Group Tests', () => {

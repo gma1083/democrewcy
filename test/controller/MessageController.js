@@ -1,4 +1,5 @@
 const Noomman = require('noomman');
+const database = require('../util/database');
 const User = require('../../src/models/User');
 const Message = require('../../src/models/Message');
 const MessageBoard = require('../../src/models/MessageBoard');
@@ -11,13 +12,13 @@ require('../../src/models/index');
 describe('MessaegeController.js Tests', () => {
 
     before(async () => {
-        const connected = await Noomman.connect('mongodb+srv://GregArnheiter:GregArnheiter@cluster0-rqft7.gcp.mongodb.net/test?retryWrites=true&w=majority', "democrewcy_test");
+        const connected = await database.connect();
         if(connected) console.log('Tests Are Connected.....');
         else console.log('Test Connections Failed');
     });
 
     after(async () => {
-        await Noomman.close();
+        await database.close();
     });
 
     describe('Create Message Tests', () => {

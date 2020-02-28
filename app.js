@@ -6,9 +6,12 @@ const cors = require('kcors');
 
 const Noomman = require('noomman');
 
+
 require('./src/models/index');
 
-Noomman.connect('mongodb+srv://GregArnheiter:GregArnheiter@cluster0-rqft7.gcp.mongodb.net/test?retryWrites=true&w=majority', "democrewcy_test")
+const config = require('./config.json');
+
+Noomman.connect(config.databaseURI, config.unitTestDatabase)
     .then(() => console.log('Connected....'))
     .catch((error) => console.log('Connection Failed: ' + error.message));
 

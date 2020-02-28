@@ -1,4 +1,5 @@
 const Noomman = require('noomman');
+const database = require('../util/database');
 const User = require('../../src/models/User');
 const Group = require('../../src/models/Group');
 const Position = require('../../src/models/Position');
@@ -12,14 +13,14 @@ require('../../src/models/index');
 describe('User.js Tests', () => {
 
     before(async () => {
-        const connected = await Noomman.connect('mongodb+srv://GregArnheiter:GregArnheiter@cluster0-rqft7.gcp.mongodb.net/test?retryWrites=true&w=majority', "democrewcy_test");
+        const connected = await database.connect();
         if(connected) console.log('Tests Are Connected.....');
         else console.log('Test Connections Failed');
     });
 
     after(async () => {
-        await Noomman.close();
-    })
+        await database.close();
+    });
 
     describe('User Method - Get Position Definitions', () => {
 

@@ -1,4 +1,5 @@
 const Noomman = require('noomman');
+const database = require('./database');
 const Instance = Noomman.Instance;
 
 const Appointment = require('../../src/models/Appointment');
@@ -25,7 +26,7 @@ require('../../src/models/index');
 describe('loginController.js Tests', () => {
 
     before(async () => {
-        const connected = await Noomman.connect('mongodb+srv://GregArnheiter:GregArnheiter@cluster0-rqft7.gcp.mongodb.net/test?retryWrites=true&w=majority', "democrewcy_test");
+        const connected = await database.connect();
         if(connected) console.log('Tests Are Connected.....');
         else console.log('Test Connections Failed');
     });
