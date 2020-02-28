@@ -11,7 +11,7 @@ require('./src/models/index');
 
 const config = require('./config.json');
 
-Noomman.connect(config.databaseURI, config.unitTestDatabase)
+Noomman.connect(config.databaseURI, config.frontEndTestDatabase)
     .then(() => console.log('Connected....'))
     .catch((error) => console.log('Connection Failed: ' + error.message));
 
@@ -24,7 +24,7 @@ app.use(logger());
 app.use(cors({credentials: true}));
 
 // sessions
-app.keys = ['super-secret-key'];
+app.keys = [config.secretKey];
 app.use(session(app));
 
 // Authentication

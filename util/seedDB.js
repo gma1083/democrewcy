@@ -1,6 +1,7 @@
 const Noomman = require('noomman');
 const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
+require('../src/models/index');
 
 const Appointment = require('../src/models/Appointment');
 const Channel = require('../src/models/Channel');
