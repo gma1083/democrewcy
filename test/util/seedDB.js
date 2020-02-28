@@ -14,7 +14,6 @@ const MessageBoard = require('../../src/models/MessageBoard');
 const Motion = require('../../src/models/Motion');
 const Position = require('../../src/models/Position');
 const PositionDefinition = require('../../src/models/PositionDefinition');
-const Token = require('../../src/models/Token');
 const User = require('../../src/models/User');
 const Vote = require('../../src/models/Vote');
 const VoteOption = require('../../src/models/VoteOption');
@@ -51,7 +50,6 @@ describe('loginController.js Tests', () => {
             await Motion.clear();
             await Position.clear();
             await PositionDefinition.clear();
-            await Token.clear();
             await User.clear();
             await Vote.clear();
             await VoteOption.clear();

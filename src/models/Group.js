@@ -1,10 +1,11 @@
 const noomman = require('noomman');
 const ClassModel = noomman.ClassModel;
 const Channelable = require('./Channelable');
+const MotionContext = require('./MotionContext');
 
 const Group = new ClassModel({
     className : 'Group',
-    superClasses : [Channelable],
+    superClasses : [Channelable, MotionContext],
     attributes : [
         {
             name : 'name',
@@ -19,23 +20,23 @@ const Group = new ClassModel({
     ],
     relationships : [
         {
+            name : 'events',
+            toClass : 'Event',
+            singular : false,
+            required : false,
+            mirrorRelationship: 'group'
+        },
+        {
             name : 'positionDefinitions',
             toClass : 'PositionDefinition',
             singular : false,
-            required : false
+            required : true
         },
         {
             name : 'positions',
             toClass : 'Position',
             singular : false,
             required : true,
-            mirrorRelationship : 'group'
-        },
-        {
-            name : 'motions',
-            toClass : 'Motion',
-            singular : false,
-            required : false,
             mirrorRelationship : 'group'
         },
         {

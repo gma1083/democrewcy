@@ -22,7 +22,6 @@ const Position = new ClassModel({
             toClass : 'PositionDefinition',
             singular : true,
             required : true,
-            mirrorRelationship : 'positions'
         },
         {
             name : 'group',

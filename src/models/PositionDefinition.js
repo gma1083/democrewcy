@@ -15,19 +15,12 @@ const PositionDefinition = new ClassModel({
             required : true,
         },
         {
-            name : 'unique',
-            type : Boolean,
+            name : 'allowedPositions',
+            type : Number,
             required : true,
         }
     ],
     relationships : [
-        {
-            name : 'positions',
-            toClass : 'Position',
-            singular : false,
-            required : false,
-            mirrorRelationship : 'positionDefinition'
-        },
         {
             name : 'createPosition',
             toClass : 'CreatePosition',
@@ -36,12 +29,11 @@ const PositionDefinition = new ClassModel({
             mirrorRelationship : 'positionDefinition'
         },
         {
-            name : 'appointments',
-            toClass : 'Appointment',
-            singular : false,
-            required : false,
-            mirrorRelationship : 'positionDefinition'
-        }
+            name: 'powers',
+            toClass: 'Power',
+            singular: false,
+            required: false,
+        },
     ]
   
 });

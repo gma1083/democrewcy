@@ -3,7 +3,6 @@ const ClassModel = noomman.ClassModel;
 
 const IndividualVote = new ClassModel({
     className : 'IndividualVote',
-    
     relationships : [
         {
             name : 'position',

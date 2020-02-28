@@ -3,7 +3,6 @@ const ClassModel = noomman.ClassModel;
 
 const VoteOption = new ClassModel({
     className : 'VoteOption',
-    
     attributes : [
         {
             name : 'name',
