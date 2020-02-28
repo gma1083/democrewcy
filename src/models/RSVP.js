@@ -5,6 +5,11 @@ const RSVP = new ClassModel({
     className : 'RSVP',
     attributes : [
         {
+            name : 'attending',
+            type : Boolean,
+            required: false,
+        },
+        {
             name : 'date',
             type : Date,
             required : true,

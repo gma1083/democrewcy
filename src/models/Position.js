@@ -38,13 +38,6 @@ const Position = new ClassModel({
             mirrorRelationship : 'positions'
         },
         {
-            name : 'individualVotes',
-            toClass : 'IndividualVote',
-            singular : false,
-            required : false,
-            mirrorRelationship : 'position'
-        },
-        {
             name : 'appointment',
             toClass : 'Appointment',
             singular : true,
@@ -52,7 +45,14 @@ const Position = new ClassModel({
             mirrorRelationship : 'createsPosition'
         },
         {
-            name : 'motion',
+            name : 'individualVotes',
+            toClass : 'IndividualVote',
+            singular : false,
+            required : false,
+            mirrorRelationship : 'position'
+        },
+        {
+            name : 'motions',
             toClass : 'Motion',
             singular : false,
             required : false,

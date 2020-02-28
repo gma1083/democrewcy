@@ -30,7 +30,7 @@ const Motion = new ClassModel({
             toClass : 'Position',
             singular : true,
             required : true,
-            mirrorRelationship : 'motion'
+            mirrorRelationship : 'motions'
         },
         {
             name : 'vote',

@@ -56,7 +56,15 @@ async function putRoute(ctx) {
     try {
         const result = await MiraController.put(ctx.request.body);
         ctx.status = 200;
-        ctx.body = JSON.stringify(result);
+        const document = result[0];
+        const classModel = noomman.ClassModel.getClassModel(document.className);
+        const instance = await classModel.findById(document.id);
+        const response = {
+            className: instance.classModel.className,
+            id: instance.id,
+            displayAs: instance.displayAs ? instance.displayAs() : instance.classModel.className + ': ' + instance.id
+        }
+        ctx.body = JSON.stringify(response);
     }
     catch(error) {
         ctx.status = 400;
