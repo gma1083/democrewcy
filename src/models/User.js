@@ -30,7 +30,7 @@ const User = new ClassModel({
         },
         {
             name : 'admin',
-            type : String,
+            type : Boolean,
             required : false,
         },
         {

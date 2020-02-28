@@ -1,4 +1,5 @@
 const Noomman = require('noomman');
+const bcrypt = require('bcrypt');
 const database = require('../util/database');
 const loginController = require('../../src/controllers/LoginController');
 const User = require('../../src/models/User');
@@ -25,13 +26,14 @@ describe('loginController.js Tests', () => {
         });
 
         it('Claim Account - Happy Path', async () => {
+            const password = await bcrypt.hash('TempPassword', 10);
 
             const userData = {
-                firstName : "Greg",
-                lastName : "Arnheiter",
+                firstName : "Bob",
+                lastName : "Ross",
                 birthDate : new Date(),
-                email : 'milad@gmail.com',
-                password : "TempPassword"
+                email : 'bob@ross.com',
+                password,
             }
 
             const user = new Instance(User);
@@ -44,7 +46,7 @@ describe('loginController.js Tests', () => {
             const request = {
                 className : "Account",
                 id : textId,
-                email : "brulad@gmail.com",
+                email : "bobby@ross.com",
                 password : "DontStealMyPassword"
             };
 
@@ -53,7 +55,7 @@ describe('loginController.js Tests', () => {
             const foundUser = await User.findById(user._id);
 
             if(foundUser.email !== request.email) throw new Error('Claim User Failed - Email Mismatch');
-            if(foundUser.password !== request.password) throw new Error('Claim User Failed - Password Mismatch');
+            if(!(await bcrypt.compare(request.password, foundUser.password))) throw new Error('Claim User Failed - Password Mismatch');
 
         });
 

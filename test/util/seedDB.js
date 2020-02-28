@@ -23,7 +23,7 @@ const seedDB = require('../../util/seedDB');
 
 require('../../src/models/index');
 
-describe('loginController.js Tests', () => {
+describe('seedDB.js Tests', () => {
 
     before(async () => {
         const connected = await database.connect();
@@ -81,9 +81,6 @@ describe('loginController.js Tests', () => {
 
         });
 
-        
-
     });
-
 
 });

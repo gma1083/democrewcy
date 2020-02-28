@@ -1,6 +1,8 @@
 const Noomman = require('noomman');
 const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
+const bcrypt = require('bcrypt');
+
 require('../src/models/index');
 
 const Appointment = require('../src/models/Appointment');
@@ -26,7 +28,7 @@ async function seedUser() {
     user1.lastName = "Potter",
     user1.birthDate = new Date('1980-07-31');
     user1.email = "harry@potter.com";
-    user1.password = "lemonDrop";
+    user1.password = await bcrypt.hash("lemonDrop", 10);
 
     return user1.save();
 }
@@ -36,31 +38,30 @@ async function seedUsers() {
     let users = new InstanceSet(User);
 
     user1 = new Instance(User);
-    user1.firstName = "Harry",
-    user1.lastName = "Potter",
+    user1.firstName = "Hermione",
+    user1.lastName = "Granger",
     user1.birthDate = new Date('1980-07-31');
-    user1.email = "harryPotter@hogwarts.edu";
-    user1.password = "Balderdash";
+    user1.email = "hermioneGranger@hogwarts.edu";
+    user1.password = await bcrypt.hash("<3krum", 10);
 
     user2 = new Instance(User);
     user2.firstName = "Ron",
     user2.lastName = "Weasley",
     user2.birthDate = new Date('1980-03-01');
     user2.email = "ronWeasley@hogwarts.edu";
-    user2.password = "Dilligrout";
+    user2.password = await bcrypt.hash("Dilligrout", 10);
 
     user3 = new Instance(User);
     user3.firstName = "Albus",
     user3.lastName = "Dumbledore",
     user3.birthDate = new Date('1881-07-01');
     user3.email = "albusDumbledore@howarts.edu";
-    user3.password = "sherbertLemon";
+    user3.password = await bcrypt.hash("sherbertLemon", 10);
+    user3.admin = true;
 
-    await user1.save();
-    await user2.save();
-    await user3.save();
+    users.addInstances([user1, user2, user3]);
 
-    users.add(user1, user2, user3);
+    await users.save();
 
     return users;
 }
@@ -72,7 +73,8 @@ async function seedGroupModule() {
     const channel = new Instance(Channel);
     const positions = new InstanceSet(Position, [position]);
     const positionDefinitions = new InstanceSet(PositionDefinition, [positionDefinition]);
-    const user = await seedUser();
+    const users = await seedUsers();
+    const user = users.instanceAt(0);
 
     group.name = 'Standard Seed Group';
     group.description = 'Group Created From SeedDB For Testing';

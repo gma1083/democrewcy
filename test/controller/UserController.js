@@ -1,4 +1,5 @@
 const Noomman = require('noomman');
+const bcrypt = require('bcrypt');
 const database = require('../util/database');
 const User = require('../../src/models/User');
 const UserController = require('../../src/controllers/UserController');
@@ -41,7 +42,7 @@ describe('UserController.js Tests', () => {
 
             if(foundUser === null) throw new Error('Saved User is Null');
             if(foundUser.email !== data.email) throw new Error('User Save Failed - Incorrect User Email');
-            if(foundUser.password !== data.password) throw new Error('User Save Failed - Incorrect User Password');
+            if(!(await bcrypt.compare(data.password, foundUser.password))) throw new Error('User Save Failed - Incorrect User Password');
             if(foundUser.firstName !== data.firstName) throw new Error('User Save Failed - Incorrect User First Name');
             if(foundUser.lastName !== data.lastName) throw new Error('User Save Failed - Incorrect User Last Name');
             if(foundUser.birthDate.getTime() !== data.birthDate.getTime()) throw new Error('User Save Failed - Incorrect User birthDate');

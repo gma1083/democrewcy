@@ -1,4 +1,5 @@
 const noomman = require('noomman');
+const bcrypt = require('bcrypt');
 const User = require('../models/User');
 
 async function claimUser(body) {
@@ -21,7 +22,7 @@ async function claimUser(body) {
     if(user === null) throw new Error('No User With That ID');
     
     user.email = email;
-    user.password = password;
+    user.password = await bcrypt.hash(password, 10);
 
     await user.save();
     return user;

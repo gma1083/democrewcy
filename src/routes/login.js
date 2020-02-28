@@ -5,18 +5,18 @@ const loginController = require('../controllers/LoginController');
 const router = new Router();
 
 router.post('/auth/login', async (ctx) => {
-    return passport.authenticate('local', (err, account, info, status) => {
-        if (account) {
-            ctx.login(account);
+    return passport.authenticate('local', (err, user, info, status) => {
+        if (user) {
+            ctx.login(user);
             ctx.body = { 
                 message : 'Logged In with Account ID: ',
-                accountId : account.id
+                id : user.id
             };
         } 
         else {
             ctx.status = 400;
             ctx.body = { 
-                message : 'Route error' 
+                message : 'Incorrect email or password' 
             };
         }
     })(ctx);
