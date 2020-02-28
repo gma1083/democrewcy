@@ -150,6 +150,7 @@ describe('GroupController.js Tests', () => {
             group.description = 'Testing Sub Groups - No SubGroups';
             group.channel = channel;
             group.positions = new InstanceSet(Position, [position]);
+            group.positionDefinitions = new InstanceSet(PositionDefinition, [standardPositionDefinition]);
 
             channel.channelable = group;
             
@@ -185,12 +186,14 @@ describe('GroupController.js Tests', () => {
             group.channel = groupChannel;
             group.positions = new InstanceSet(Position, [groupPosition]);
             group.subGroups = new InstanceSet(Group, [subGroup]);
+            group.positionDefinitions = new InstanceSet(PositionDefinition, [standardPositionDefinition]);
 
             subGroup.name = 'Testing SubGroup';
             subGroup.description = 'Testing Sub Groups - No SubGroups';
             subGroup.channel = subGroupChannel;
             subGroup.positions = new InstanceSet(Position, [subGroupPosition]);
             subGroup.superGroup = group;
+            subGroup.positionDefinitions = new InstanceSet(PositionDefinition, [standardPositionDefinition]);
 
             groupChannel.channelable = group;
             subGroupChannel.channelable = subGroup;
@@ -219,7 +222,7 @@ describe('GroupController.js Tests', () => {
 
         });
 
-        it.only('Get SubGroups - Multiple SubGroups', async () => {
+        it('Get SubGroups - Multiple SubGroups', async () => {
 
             const group = new Instance(Group);
             const subGroup = new Instance(Group);
@@ -236,18 +239,21 @@ describe('GroupController.js Tests', () => {
             group.channel = groupChannel;
             group.positions = new InstanceSet(Position, [groupPosition]);
             group.subGroup = subGroup;
+            group.positionDefinitions = new InstanceSet(PositionDefinition, [standardPositionDefinition]);
 
             subGroup.name = 'Testing SubGroup';
             subGroup.description = 'Testing Sub Groups - No SubGroups';
             subGroup.channel = subGroupChannel;
             subGroup.positions = new InstanceSet(Position, [subGroupPosition]);
             subGroup.superGroup = group;
+            subGroup.positionDefinitions = new InstanceSet(PositionDefinition, [standardPositionDefinition]);
 
             subGroup2.name = 'Testing SubGroup2';
             subGroup2.description = 'Testing Sub Groups - No SubGroups';
             subGroup2.channel = subGroup2Channel;
             subGroup2.positions = new InstanceSet(Position, [subGroup2Position]);
             subGroup2.superGroup = group;
+            subGroup2.positionDefinitions = new InstanceSet(PositionDefinition, [standardPositionDefinition]);
 
             groupChannel.channelable = group;
             subGroupChannel.channelable = subGroup;
