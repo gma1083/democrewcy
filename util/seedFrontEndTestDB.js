@@ -7,7 +7,7 @@ noomman.connect(config.databaseURI, config.frontEndTestDatabase)
         console.log('Connected....');
         seed.clearAll().then(() => {
             console.log('Cleared');
-            seed.seedGroupModule().then(() => {
+            seed.seed().then(() => {
                 console.log('Seeded');
                 noomman.close().then(() => {
                     console.log('Done');
