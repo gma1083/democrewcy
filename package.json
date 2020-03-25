@@ -4,7 +4,7 @@
   "description": "By The Crew For The Crew",
   "main": "app.js",
   "scripts": {
-    "test": "node ./node_modules/mocha/bin/mocha --recursive --timeout 5000",
+    "test": "node ./node_modules/mocha/bin/mocha --recursive --timeout 50000",
     "start": "nodemon app.js",
     "dev": "nodemon app.js"
   },
@@ -31,6 +31,6 @@
     "passport-local": "^1.0.0"
   },
   "devDependencies": {
-    "mocha": "^7.1.0"
+    "mocha": "^7.1.1"
   }
 }
