@@ -1,15 +1,14 @@
 const Noomman = require('noomman');
 const database = require('../util/database');
 const Group = require('../../src/models/Group');
-const Position = require('../../src/models/Position');
-const PositionDefinition = require('../../src/models/PositionDefinition');
 const User = require('../../src/models/User');
+const Event = require('../../src/models/Event');
 const Channel = require('../../src/models/Channel');
-const GroupController = require('../../src/controllers/GroupController');
+const DirectMessage = require('../../src/models/DirectMessage');
+const ChannelController = require('../../src/controllers/ChannelController');
 const SeedDB = require('../../util/seedDB');
 const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
-
 
 require('../../src/models/index');
 
@@ -32,11 +31,86 @@ describe('ChannelController.js Tests', () => {
             await SeedDB.seed();
         });
 
-        it('Testing NEW', () => {
+        it('Get Channels - Empty Request', async () => {
+
+            try {
+                await ChannelController.getChannels();
+                throw new Error('getChannel Should Have Thrown Error For Empty Request');
+            }
+            catch(error) {
+                if(error.message !== 'getChannels requires a data object paramter with user Id') throw new Error('getChannels - Empty Request Threw Unexpected Error');
+            }
 
         });
 
+        it('Get Channels - User Not Found', async () => {
 
+            try {
+                await ChannelController.getChannels({user : Noomman.ObjectId()});
+                throw new Error('getChannel Should Have Thrown Error For User Not Found');
+            }
+            catch(error) {
+                if(error.message !== 'User Not Found') throw new Error('getChannels - User Not Found Threw Unexpected Error');
+            }
+
+        });
+
+        it('Get Channels - Channels Only', async () => {
+
+            const user = await User.findOne({ firstName : "Harry", lastName : "Potter"});
+        
+            const data = { user : user.id };
+            const userChannels = await ChannelController.getChannels(data);
+
+            if(userChannels.length !== 3) throw new Error('getChannels Should have Returned 3');
+            
+        });
+
+        it('Get Channels - Channels and Events', async () => {
+
+            const user = await User.findOne({ firstName : "Harry", lastName : "Potter"});
+
+            const quiditchGroup = await Group.findOne({name : "Quiditch Players and Coaches"});
+            const channel = new Instance(Channel);
+            const event = new Instance(Event);
+            channel.assign({
+                channelable : event
+            });
+            event.assign({
+                name : 'Quiditch World Cup',
+                startTime : new Date(1994, 08, 22, 16, 00, 00),
+                endTime : new Date(1994, 08, 22, 20, 00, 00),
+                group : quiditchGroup,
+                channel : channel
+            });
+            await event.save();
+        
+            const data = { user : user.id };
+            const userChannels = await ChannelController.getChannels(data);
+
+            if(userChannels.length !== 4) throw new Error('getChannels Should have Returned 4');
+            // await channel.delete();
+            // await event.delete();
+            
+        });
+
+        it('Get Channels - Channels, Events, and Direct Messages', async () => {
+
+            const user = await User.findOne({ firstName : "Harry", lastName : "Potter"});
+
+            const directMessage = new Instance(DirectMessage);
+            directMessage.assign({users : new InstanceSet(User, [user])});
+            await directMessage.save();
+        
+            const data = { user : user.id };
+            const userChannels = await ChannelController.getChannels(data);
+
+            if(userChannels.length !== 5) throw new Error('getChannels Should have Returned 5');
+            // await channel.delete();
+            // await event.delete();
+            // await directmessage.delete();
+            
+        });
 
     });
 

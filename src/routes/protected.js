@@ -1,6 +1,7 @@
 const Router = require('koa-router');
 const UserController = require('../controllers/UserController');
 const GroupController = require('../controllers/GroupController');
+const ChannelController = require('../controllers/ChannelController');
 const noomman = require('noomman');
 const NoommanValidationError = noomman.NoommanErrors.NoommanValidationError;
 
@@ -8,7 +9,19 @@ const MiraController = require('../controllers/MiraController');
 
 const router = new Router();
 
-router.post('/getChannels', notImplemented);
+router.post('/getChannels', async (ctx) => {
+    try {
+        const result = await ChannelController.getChannels(ctx.request.body);
+        ctx.status = 200;
+        ctx.body = JSON.stringify(result);
+    }
+    catch(error) {
+        ctx.status = 400;
+        ctx.body = {
+            message : error.message
+        }
+    }
+});
 
 router.post('/getDirectMessages', notImplemented);
 
