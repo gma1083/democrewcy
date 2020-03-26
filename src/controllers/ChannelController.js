@@ -15,7 +15,6 @@ async function getChannels(data) {
     const channels = new InstanceSet(Channel);
     const events = new InstanceSet(Event);
     const positions = await user.positions;
-    const directMessages = await user.directMessages;
 
     for (const position of positions) {
         channels.add(await (await position.group).channel);
@@ -29,10 +28,6 @@ async function getChannels(data) {
 
     for (event of events) {
         response.push(await MiraController.formatInstanceForGetRequest(event));
-    }
-
-    for (message of directMessages) {
-        response.push(await MiraController.formatInstanceForGetRequest(message));
     }
 
     return response;

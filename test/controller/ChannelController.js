@@ -4,11 +4,9 @@ const Group = require('../../src/models/Group');
 const User = require('../../src/models/User');
 const Event = require('../../src/models/Event');
 const Channel = require('../../src/models/Channel');
-const DirectMessage = require('../../src/models/DirectMessage');
 const ChannelController = require('../../src/controllers/ChannelController');
 const SeedDB = require('../../util/seedDB');
 const Instance = Noomman.Instance;
-const InstanceSet = Noomman.InstanceSet;
 
 require('../../src/models/index');
 
@@ -91,24 +89,6 @@ describe('ChannelController.js Tests', () => {
             if(userChannels.length !== 4) throw new Error('getChannels Should have Returned 4');
             // await channel.delete();
             // await event.delete();
-            
-        });
-
-        it('Get Channels - Channels, Events, and Direct Messages', async () => {
-
-            const user = await User.findOne({ firstName : "Harry", lastName : "Potter"});
-
-            const directMessage = new Instance(DirectMessage);
-            directMessage.assign({users : new InstanceSet(User, [user])});
-            await directMessage.save();
-        
-            const data = { user : user.id };
-            const userChannels = await ChannelController.getChannels(data);
-
-            if(userChannels.length !== 5) throw new Error('getChannels Should have Returned 5');
-            // await channel.delete();
-            // await event.delete();
-            // await directmessage.delete();
             
         });
 
