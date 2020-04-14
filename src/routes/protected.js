@@ -2,6 +2,7 @@ const Router = require('koa-router');
 const UserController = require('../controllers/UserController');
 const GroupController = require('../controllers/GroupController');
 const ChannelController = require('../controllers/ChannelController');
+const DirectMessageController = require('../controllers/DirectMessageController');
 const noomman = require('noomman');
 const NoommanValidationError = noomman.NoommanErrors.NoommanValidationError;
 
@@ -23,7 +24,19 @@ router.post('/getChannels', async (ctx) => {
     }
 });
 
-router.post('/getDirectMessages', notImplemented);
+router.post('/getDirectMessages', async (ctx) => {
+    try {
+        const result = await DirectMessageController.getDirectMessages(ctx.request.body);
+        ctx.status = 200;
+        ctx.body = JSON.stringify(result);
+    }
+    catch(error) {
+        ctx.status = 400;
+        ctx.body = {
+            message : error.message
+        }
+    }
+});
 
 router.post('/getMotions', notImplemented);
 
