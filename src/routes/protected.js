@@ -3,6 +3,7 @@ const UserController = require('../controllers/UserController');
 const GroupController = require('../controllers/GroupController');
 const ChannelController = require('../controllers/ChannelController');
 const DirectMessageController = require('../controllers/DirectMessageController');
+const PositionController = require('../controllers/PositionController');
 const noomman = require('noomman');
 const NoommanValidationError = noomman.NoommanErrors.NoommanValidationError;
 
@@ -40,7 +41,19 @@ router.post('/getDirectMessages', async (ctx) => {
 
 router.post('/getMotions', notImplemented);
 
-router.post('/getPositions', notImplemented);
+router.post('/getPositions', async (ctx) => {
+    try {
+        const result = await PositionController.getPositions(ctx.request.body);
+        ctx.status = 200;
+        ctx.body = JSON.stringify(result);
+    }
+    catch(error) {
+        ctx.status = 400;
+        ctx.body = {
+            message : error.message
+        }
+    }
+});
 
 router.post('/getSubGroups', async (ctx) => {
     try {
