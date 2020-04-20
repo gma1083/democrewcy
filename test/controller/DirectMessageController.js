@@ -63,31 +63,46 @@ describe('DirectMessageController.js Tests', () => {
             directMessage.assign({users : new InstanceSet(User, [user])});
             await directMessage.save();
         
-            const data = { user : user.id };
-            const userDirectMessages = await DirectMessageController.getDirectMessages(data);
+            const userData = { user : user.id };
+            const userDirectMessages = await DirectMessageController.getDirectMessages(userData);
 
-            const updatedUser = await User.findOne({ firstName : "Harry", lastName : "Potter"});
-            const dmCount = (await updatedUser.directMessages).size;
-
-           if(dmCount !== userDirectMessages.length) throw new Error('Counts Dont Match Up')
-
+            const updatedUser = await User.findOne({ firstName : "Harry", lastName : "Potter"});           
+            
+            if(updatedUser.directMessages_ids[0].toHexString() !== directMessage.id) {
+                await directMessage.delete();
+                throw new Error('DM Message IDs Did Not Match');
+            }
 
             await directMessage.delete();
 
         });
 
-        it('getDirectMessages() - Two Users DM', async () => {
+        it('getDirectMessages() - Multiple users DM', async () => {
 
             const user1 = await User.findOne({ firstName : "Harry", lastName : "Potter"});
             const user2 = await User.findOne({ firstName : "Ron", lastName : "Weasley"});
-            const directMessage = new Instance(DirectMessage);
-            directMessage.assign({users : new InstanceSet(User, [user1, user2])});
-            await directMessage.save();
-        
-            const data = { user : user1.id };
-            const userDirectMessages = await DirectMessageController.getDirectMessages(data);
+            const user3 = await User.findOne({ firstName : "Hermione", lastName : "Granger"});
+            const directMessage1 = new Instance(DirectMessage);
+            const directMessage2 = new Instance(DirectMessage);
+            directMessage1.assign({users : new InstanceSet(User, [user1, user2])});
+            directMessage2.assign({users : new InstanceSet(User, [user1, user3])});
+            await directMessage1.save();
+            await directMessage2.save();
 
-            if(userDirectMessages.length !== 1) throw new Error('getDirectMessages() should have returned 2 items in array');
+            const directMessages = [directMessage2.id, directMessage1.id];
+        
+            const harryData = { user : user1.id };
+            await DirectMessageController.getDirectMessages(harryData);
+            
+            const updatedHarry = await User.findOne({ firstName : "Harry", lastName : "Potter"}); 
+
+            const harrysDMs = updatedHarry.directMessages_ids.map(id => id.toHexString());
+
+            if(harrysDMs.length !== directMessages.length) throw new Error("Arrays not equal size");
+
+            for(dM of harrysDMs) {
+                if(!(directMessages.includes(dM))) throw new Error('getDirectMessage() didnt include expected Ids');
+            }
 
         });
 
