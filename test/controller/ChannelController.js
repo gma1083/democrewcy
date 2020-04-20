@@ -5,7 +5,7 @@ const User = require('../../src/models/User');
 const Event = require('../../src/models/Event');
 const Channel = require('../../src/models/Channel');
 const ChannelController = require('../../src/controllers/ChannelController');
-const SeedDB = require('../../util/seedDB');
+const SeedDB = require('../../util/seedFrontEnd');
 const Instance = Noomman.Instance;
 
 require('../../src/models/index');

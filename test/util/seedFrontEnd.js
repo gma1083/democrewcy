@@ -22,11 +22,11 @@ const User = require('../../src/models/User');
 const Vote = require('../../src/models/Vote');
 const VoteOption = require('../../src/models/VoteOption');
 
-const seedDB = require('../../util/seedDB');
+const seedDB = require('../../util/seedFrontEnd');
 
 require('../../src/models/index');
 
-describe('seedDB.js Tests', () => {
+describe('seedFrontEnd.js Tests', () => {
 
     before(async () => {
         const connected = await database.connect();

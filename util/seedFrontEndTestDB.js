@@ -1,4 +1,4 @@
-const seed = require('./seedDB');
+const seed = require('./seedFrontEnd');
 const noomman = require('noomman');
 const config = require('../config.json');
 

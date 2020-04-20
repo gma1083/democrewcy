@@ -6,7 +6,7 @@ const Event = require('../../src/models/Event');
 const Channel = require('../../src/models/Channel');
 const DirectMessage = require('../../src/models/DirectMessage');
 const DirectMessageController = require('../../src/controllers/DirectMessageController');
-const SeedDB = require('../../util/seedDB');
+const SeedDB = require('../../util/seedFrontEnd');
 const Instance = Noomman.Instance;
 const InstanceSet = Noomman.InstanceSet;
 

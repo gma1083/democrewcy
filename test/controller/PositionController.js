@@ -2,7 +2,7 @@ const Noomman = require('noomman');
 const database = require('../util/database');
 const User = require('../../src/models/User');
 const PositionController = require('../../src/controllers/PositionController');
-const SeedDB = require('../../util/seedDB');
+const SeedDB = require('../../util/seedFrontEnd');
 
 
 require('../../src/models/index');
