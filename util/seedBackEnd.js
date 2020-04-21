@@ -181,6 +181,10 @@ async function seedPowers() {
     return powers;
 }
 
+async function seedPrimaryGroup() {
+
+};
+
 async function seedGroups() {
     const users = await seedUsers();
     const powers = await seedPowers();
@@ -466,7 +470,9 @@ async function clearAll() {
 
 module.exports = {
     seedUser,
+    seedUsers,
+    seedPowers,
+    seedGroups,
     seedGroupModule,
-    seed,
     clearAll,
 };

@@ -11,7 +11,7 @@ require('./src/models/index');
 
 const config = require('./config.json');
 
-Noomman.connect(config.databaseURI, config.frontEndTestDatabase)
+Noomman.connect(config.databaseURI, config.unitTestDatabase)
     .then(() => console.log('Connected....'))
     .catch((error) => console.log('Connection Failed: ' + error.message));
 
