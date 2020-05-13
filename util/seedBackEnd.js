@@ -39,6 +39,8 @@ async function seedUser() {
 }
 
 async function seedUsers() {
+
+
     const harry = await seedUser();
 
     const hermione = new Instance(User);
@@ -47,7 +49,7 @@ async function seedUsers() {
         lastName: 'Granger',
         birthDate: new Date('1979-09-19'),
         email: 'hermioneGranger@hogwarts.edu',
-        password: await bcrypt.hash('<3krum', 10),
+        password: await bcrypt.hash('<3Krum', 10),
     });
 
     const ron = new Instance(User);
@@ -75,7 +77,16 @@ async function seedUsers() {
         lastName: 'Snape',
         birthDate: new Date('1960-05-02'),
         email: 'severusSnape@hogwarts.edu',
-        password: await bcrypt.hash('lillyPotter', 10),
+        password: await bcrypt.hash('lillyEvans', 10),
+    });
+
+    const minerva = new Instance(User);
+    minerva.assign({
+        firstName: 'Minerva',
+        lastName: 'McGonagall',
+        birthDate: new Date('1935-10-04'),
+        email: 'minervaMcGonagall@hogwarts.edu',
+        password: await bcrypt.hash('TabbyCat35', 10),
     });
 
     const draco = new Instance(User);
@@ -93,7 +104,7 @@ async function seedUsers() {
         lastName: 'Lovegood',
         birthDate: new Date('1981-02-13'),
         email: 'lunaLovegood@hogwarts.edu',
-        password: await bcrypt.hash('thestral81', 10),
+        password: await bcrypt.hash('Thestral81', 10),
     });
 
     const neville = new Instance(User);
@@ -102,7 +113,7 @@ async function seedUsers() {
         lastName: 'Longbottom',
         birthDate: new Date('1980-07-30'),
         email: 'nevilleLongbottom@hogwarts.edu',
-        password: await bcrypt.hash('lovelyluna', 10),
+        password: await bcrypt.hash('lovelyLuna81', 10),
     });
 
     const sirius = new Instance(User);
@@ -111,7 +122,7 @@ async function seedUsers() {
         lastName: 'Black',
         birthDate: new Date('1959-11-03'),
         email: 'siriusBlack@pheonix.com',
-        password: await bcrypt.hash('blackDog', 10),
+        password: await bcrypt.hash('blackDog59', 10),
     });
     
     const users = new InstanceSet(User, [
@@ -120,6 +131,7 @@ async function seedUsers() {
         ron,
         albus,
         severus,
+        minerva,
         draco,
         luna,
         neville,
@@ -183,47 +195,156 @@ async function seedPowers() {
 
 async function seedPrimaryGroup() {
 
-};
-
-async function seedGroups() {
     const users = await seedUsers();
     const powers = await seedPowers();
 
-    // 3 Groups to be seeded
     const hogwarts = new Instance(Group);
-    const orderOfThePheonix = new Instance(Group);
-    const quiditchGroup = new Instance(Group);
 
-    // The 3 groups utilize some or all of the following positions
-    const member = new Instance(PositionDefinition);
-    member.assign({
+    // Creates position definitions for Hogwarts
+    const hogwartsMember = new Instance(PositionDefinition);
+    hogwartsMember.assign({
         title: 'Member',
-        description: 'Member of a group.',
+        description: 'Member of Hogwarts School of Witchcraft and Wizardry.',
         allowedPositions: 0,
     });
 
     const student = new Instance(PositionDefinition);
     student.assign({
         title: 'Student',
-        description: 'Student of Hogwarts school of witchcraft and wizardry.',
+        description: 'Student of Hogwarts School of Witchcraft and Wizardry.',
         allowedPositions: 0,
-        powers: powers.filterToInstanceSet(p => ['Create Event', 'Create Group'].includes(p.name)),
+        powers: powers.filterToInstanceSet(p => ['Create Event', 'Create Group', 'Vote'].includes(p.name)),
     });
 
     const professor = new Instance(PositionDefinition);
     professor.assign({
         title: 'Professor',
-        description: 'Professor at Hogwarts school of witchcraft and wizardry.',
+        description: 'Professor at Hogwarts School of Witchcraft and Wizardry.',
         allowedPositions: 0,
         powers: powers.filterToInstanceSet(p => ['Create Event', 'Create Group', 'Create Motion', 'Vote'].includes(p.name)),
+    });
+
+    const deputyHeadmistress = new Instance(PositionDefinition);
+    deputyHeadmistress.assign({
+        title: 'Deputy Headmistress',
+        description: 'Deputy Headmistress of Hogwarts School of Witchcraft and Wizardry.',
+        allowedPositions: 1,
+        powers: powers,
     });
 
     const headMaster = new Instance(PositionDefinition);
     headMaster.assign({
         title: 'Headmaster',
-        description: 'Headmaster of Hogwarts school of witchcraft and wizardry.',
+        description: 'Headmaster of Hogwarts School of Witchcraft and Wizardry.',
         allowedPositions: 1,
         powers: powers,
+    });
+
+    // Hogarts group assignments
+    const hogwartsChannel = new Instance(Channel);
+    hogwartsChannel.channelable = hogwarts;
+    hogwarts.assign({
+        name: 'Hogwarts School of Witchcraft and Wizardry',
+        positionDefinitions: new InstanceSet(PositionDefinition, [hogwartsMember, student, professor, deputyHeadmistress, headMaster]),
+        channel: hogwartsChannel,
+    });
+
+    for (const user of users) {
+
+        // Assign all users to member position of Hogwarts Group
+        const member = new Instance(Position);
+        member.assign({
+            positionDefinition: hogwartsMember,
+            user,
+            group: hogwarts,
+            startDate: new Date(),
+        });
+        await member.save();
+
+        // Assign student positions to Hogwarts Group
+        if (['Ron', 'Hermione', 'Luna', 'Draco', 'Harry', 'Neville'].includes(user.firstName)) {
+            const studentPosition = new Instance(Position);
+            studentPosition.assign({
+                positionDefinition: student,
+                user,
+                group: hogwarts,
+                startDate: new Date('1991-09-12'),
+            });
+            await studentPosition.save();
+        }
+
+        //Assign professor positions to Hogwarts Group
+        if (['Severus', 'Albus', 'Minerva'].includes(user.firstName)) {
+            const professorPosition = new Instance(Position);
+            professorPosition.assign({
+                positionDefinition: professor,
+                user,
+                group: hogwarts,
+                startDate: new Date('1981-06-15'),
+            });
+            await professorPosition.save();
+        }
+
+       //Assign deputy headmistress positions to Hogwarts Group
+       if (['Minerva'].includes(user.firstName)) {
+        const deputyPosition = new Instance(Position);
+        deputyPosition.assign({
+            positionDefinition: deputyHeadmistress,
+            user,
+            group: hogwarts,
+            startDate: new Date('1981-06-15'),
+        });
+        await deputyPosition.save();
+    }
+
+        //Assign Headmaster position to Hogwarts Group
+        if (['Albus'].includes(user.firstName)) {
+            const headMasterPosition = new Instance(Position);
+            headMasterPosition.assign({
+                positionDefinition: headMaster,
+                user,
+                group: hogwarts,
+                startDate: new Date('1965-06-22'),
+            });
+            await headMasterPosition.save();
+        }
+
+    }
+
+    await student.save();
+    await hogwartsMember.save();
+    await deputyHeadmistress.save();
+    await headMaster.save();
+    await professor.save();
+
+    await hogwartsChannel.save();
+    return hogwarts.save();
+
+};
+
+async function seedGroups() {
+
+    const hogwarts = await seedPrimaryGroup();
+    const users = await hogwarts.walkPath(['positions', 'user']);
+    const powers = await hogwarts.walkPath(['positions', 'positionDefinition', 'powers']);
+
+    // 2 mroe Groups to be seeded
+    const orderOfThePheonix = new Instance(Group);
+    const quiditchGroup = new Instance(Group);
+
+    // The 3 groups utilize some or all of the following positions
+    const ootpMember = new Instance(PositionDefinition);
+    ootpMember.assign({
+        title: 'Member',
+        description: 'Standard Member of The Order Of The Phoenix Group',
+        allowedPositions: 0
+    });
+
+    const quiditchMember = new Instance(PositionDefinition);
+    quiditchMember.assign({
+        title: 'Member',
+        description: 'Standard Member of the Hogwarts subgroup Quiditch Group',
+        allowedPositions: 0
     });
 
     const quiditchPlayer = new Instance(PositionDefinition);
@@ -242,21 +363,12 @@ async function seedGroups() {
         powers,
     });
 
-    // Hogarts Group Setup
-    const hogwartsChannel = new Instance(Channel);
-    hogwartsChannel.channelable = hogwarts;
-    hogwarts.assign({
-        name: 'Hogwarts School of Witchcraft and Wizardry',
-        positionDefinitions: new InstanceSet(PositionDefinition, [member, student, professor, headMaster]),
-        channel: hogwartsChannel,
-    });
-
     // Order of the Phoneix Group Setup
     const ootpChannel = new Instance(Channel);
     ootpChannel.channelable = orderOfThePheonix;
     orderOfThePheonix.assign({
-        name: 'Order of the Pheonix',
-        positionDefinitions: new InstanceSet(PositionDefinition, [member]),
+        name: 'Order of the Phoenix',
+        positionDefinitions: new InstanceSet(PositionDefinition, [ootpMember]),
         channel: ootpChannel,
     });
 
@@ -265,84 +377,37 @@ async function seedGroups() {
     quiditchChannel.channelable = quiditchGroup;
     quiditchGroup.assign({
         name: 'Quiditch Players and Coaches',
-        positionDefinitions: new InstanceSet(PositionDefinition, [quiditchPlayer, quiditchCoach]),
+        positionDefinitions: new InstanceSet(PositionDefinition, [quiditchPlayer, quiditchCoach, quiditchMember]),
         superGroup: hogwarts,
         channel: quiditchChannel,
     });
-
 
     // Assign all users to their groups
     // Each user is a "member" for each group plus their special positions
     for (const user of users) {
 
-        // Assign all users to member position of Hogwarts Group
-        const hogwartsMember = new Instance(Position);
-        hogwartsMember.assign({
-            positionDefinition: member,
-            user,
-            group: hogwarts,
-            startDate: new Date(),
-        });
-        await hogwartsMember.save();
-
-        // Assign student positions to Hogwarts Group
-        if (['Ron', 'Hermione', 'Luna', 'Draco', 'Harry', 'Neville'].includes(user.firstName)) {
-            const studentPosition = new Instance(Position);
-            studentPosition.assign({
-                positionDefinition: student,
-                user,
-                group: hogwarts,
-                startDate: new Date('1991-09-12'),
-            });
-            await studentPosition.save();
-        }
-
-        //Assign professor positions to Hogwarts Group
-        if (['Severus', 'Albus'].includes(user.firstName)) {
-            const professorPosition = new Instance(Position);
-            professorPosition.assign({
-                positionDefinition: professor,
-                user,
-                group: hogwarts,
-                startDate: new Date('1981-06-15'),
-            });
-            await professorPosition.save();
-        }
-
-        //Assign Headmaster position to Hogwarts Group
-        if (['Albus'].includes(user.firstName)) {
-            const headMasterPosition = new Instance(Position);
-            headMasterPosition.assign({
-                positionDefinition: headMaster,
-                user,
-                group: hogwarts,
-                startDate: new Date('1965-06-22'),
-            });
-            await headMasterPosition.save();
-        }
-
         //Assign member poistions to Order of the Phoenix Group
-        if (['Albus', 'Harry', 'Ron', 'Hermione', 'Luna', 'Neville', 'Snape', 'Sirius'].includes(user.firstName)) {
-            const memberPosition = new Instance(Position);
-            memberPosition.assign({
-                positionDefinition: member,
+        if (['Albus', 'Harry', 'Ron', 'Hermione', 'Luna', 'Neville', 'Severus', 'Sirius', 'Minerva'].includes(user.firstName)) {
+            const member = new Instance(Position);
+            member.assign({
+                positionDefinition: ootpMember,
                 user,
                 group: orderOfThePheonix,
                 startDate: new Date('1996-01-01'),
             });
-            await memberPosition.save();
+            await member.save();
         }
 
         //Assign member positions to Quiditch Group
-        if (['Draco', 'Harry', 'Snape'].includes(user.firstName)) {
-            const quiditchMember = new Instance(Position);
-            quiditchMember.assign({
-                positionDefinition: member,
+        if (['Draco', 'Harry', 'Severus'].includes(user.firstName)) {
+            const member = new Instance(Position);
+            member.assign({
+                positionDefinition: quiditchMember,
                 user,
-                group: quiditchMember,
+                group: quiditchGroup,
                 startDate: new Date(),
             });
-            await quiditchMember.save();
+            await member.save();
         }
 
         //Assign player positions to Quiditch Group
@@ -372,20 +437,17 @@ async function seedGroups() {
     }
 
     // Save all 3 groups.
-    await hogwarts.save();
+    await hogwarts.save()
     await orderOfThePheonix.save();
     await quiditchGroup.save();
 
-    //save all 3 group channels.
-    await hogwartsChannel.save();
+    //save new groups' channels
     await ootpChannel.save();
     await quiditchChannel.save();
 
-    // Save all groups' positions.
-    await student.save();
-    await member.save();
-    await headMaster.save();
-    await professor.save();
+    // Save new groups' positions.
+    await ootpMember.save();
+    await quiditchMember.save();
     await quiditchPlayer.save();
     await quiditchCoach.save();
 
@@ -472,6 +534,7 @@ module.exports = {
     seedUser,
     seedUsers,
     seedPowers,
+    seedPrimaryGroup,
     seedGroups,
     seedGroupModule,
     clearAll,
